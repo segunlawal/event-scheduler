@@ -1,12 +1,18 @@
 import { Routes, Route } from "react-router-dom";
 import { Home } from "./pages/landing-page/Home";
-import "./App.css";
+import { Blog } from "./pages/blog/Blog";
+import { SignUp } from "./pages/authentication/SignUp/SignUp";
+import { SignIn } from "./pages/authentication/SignIn/SignIn";
 
 function App() {
   return (
     <div className="App">
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="*" element={<Home />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/signin" element={<SignIn />} />
       </Routes>
     </div>
   );
