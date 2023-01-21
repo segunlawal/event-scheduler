@@ -8,6 +8,7 @@ import {
   Typography,
   IconButton,
 } from "@material-tailwind/react";
+import logo from "../assets/habitter.png";
 
 export default function Example() {
   const [openNav, setOpenNav] = useState(false);
@@ -114,13 +115,9 @@ export default function Example() {
             className="mr-4 flex cursor-pointer py-1.5 font-normal"
           >
             <span>
-              {/* <img
-              className="logo"
-              src={require("../assets/logo2.png")}
-              alt="WB"
-            /> */}
+              <img className="logo w-[50px]" src={logo} alt="habitter logo" />
             </span>
-            <span className="logo-name font-bold text-3xl pt-2">Habitter</span>
+            <span className="logo-name font-bold text-3xl">Habitter</span>
           </Typography>
           <div className="hidden lg:block">{navList}</div>
 

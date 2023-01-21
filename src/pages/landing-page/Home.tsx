@@ -4,7 +4,7 @@ export const Home = () => {
   return (
     <div className="">
       <TopNav />
-      <p className="text-xl">Habitter</p>
+      <p className="text-xl">Habiddtter</p>
     </div>
   );
 };
