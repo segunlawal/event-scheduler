@@ -16,7 +16,7 @@ export default function NavBar() {
     <ClickAwayListener onClickAway={handleClickAway}>
       <nav
         ref={navMenu}
-        className="py-8 mx-8 border-b-[1px] border-[#217BF4] border-opacity-[0.2]"
+        className="md:py-7 py-5 mx-8 border-b-[1px] border-[#217BF4] border-opacity-[0.2]"
       >
         <div className="justify-between mx-auto lg:items-center lg:flex">
           <div>

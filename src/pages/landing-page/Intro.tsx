@@ -4,7 +4,7 @@ import illustration from "../../assets/habit-illustration.png";
 export const Intro = () => {
   return (
     <div className="hero flex md:px-[135px] px-10 md:py-[72px] py-7 shadow-md">
-      <div className="md:w-1/2 w-full md:pt-[125px]">
+      <div className="lg:w-1/2 w-full md:pt-[125px]">
         <button className="text-[#217BF4] bg-[#217BF4] bg-opacity-10 rounded-lg h-9 w-44">
           Habitter Community
         </button>
@@ -24,7 +24,7 @@ export const Intro = () => {
           Get Started
         </button>
       </div>
-      <div className="w-1/2 hidden md:block">
+      <div className="w-1/2 hidden lg:block">
         <img src={illustration} alt="habit illustrtion" />
       </div>
     </div>
