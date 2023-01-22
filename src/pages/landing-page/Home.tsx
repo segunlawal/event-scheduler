@@ -1,8 +1,10 @@
+import React from "react";
+
 import TopNav from "../../components/TopNav";
 import { Intro } from "./Intro";
 import "../../../src/App.css";
 
-export const Home = () => {
+export const Home = (): JSX.Element => {
   return (
     <div className="">
       <TopNav />

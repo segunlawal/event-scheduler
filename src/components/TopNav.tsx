@@ -1,14 +1,14 @@
-import { useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import logo from "../assets/habitter.png";
 import "../../src/App.css";
 import ClickAwayListener from "@mui/base/ClickAwayListener";
 
 // eslint-disable-next-line no-unused-vars
-export default function NavBar() {
+export default function NavBar(): JSX.Element {
   const navMenu = useRef(null);
   const [navbar, setNavbar] = useState(false);
-  const handleClickAway = () => {
+  const handleClickAway = (): void => {
     setNavbar(false);
   };
 
@@ -33,7 +33,9 @@ export default function NavBar() {
                 <button
                   type="submit"
                   className="p-2 rounded-md outline-none"
-                  onClick={() => setNavbar(!navbar)}
+                  onClick={() => {
+                    setNavbar(!navbar);
+                  }}
                 >
                   {navbar ? (
                     <svg

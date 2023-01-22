@@ -1,10 +1,12 @@
+import React from "react";
+
 import { Routes, Route } from "react-router-dom";
 import { Home } from "./pages/landing-page/Home";
 import { Blog } from "./pages/blog/Blog";
 import { SignUp } from "./pages/authentication/SignUp/SignUp";
 import { SignIn } from "./pages/authentication/SignIn/SignIn";
 
-function App() {
+function App(): JSX.Element {
   return (
     <div className="App">
       <Routes>
