@@ -1,5 +1,8 @@
 * {
   font-family: "Lexend", sans-serif;
   color: #2b2b39;
-  text-align: center;
+  /* text-align: center; */
+}
+.hero {
+  background: linear-gradient(311.76deg, #d4e7fe -15.24%, #ffffff 78.85%);
 }

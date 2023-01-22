@@ -17,7 +17,11 @@ export default function NavBar() {
         <div>
           <div className="flex items-center justify-between lg:block">
             <NavLink to="/" className="flex gap-[6px]">
-              <img src={logo} alt="habitter logo" className="w-[36px]" />
+              <img
+                src={logo}
+                alt="habitter logo"
+                className="w-[36px] h-[36px]"
+              />
               <span className="font-semibold text-[1.5rem]">Habitter</span>
             </NavLink>
             <div className="lg:hidden">
