@@ -93,7 +93,7 @@ export default function NavBar(): JSX.Element {
                 <li className="leading-[25px]">
                   <NavLink
                     reloadDocument
-                    to="/sign-up"
+                    to="/signup"
                     className={({ isActive }) =>
                       isActive
                         ? " flex items-center text-[#217BF4] font-bold"
@@ -106,7 +106,7 @@ export default function NavBar(): JSX.Element {
                 <li className="leading-[25px]">
                   <NavLink
                     reloadDocument
-                    to="/sign-in"
+                    to="/signin"
                     className={({ isActive }) =>
                       isActive
                         ? " flex items-center text-[#217BF4] font-bold"

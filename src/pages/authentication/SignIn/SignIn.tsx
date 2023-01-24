@@ -1,6 +1,6 @@
 import TopNav from "../../../components/TopNav";
 
-export const SignIn = () => {
+export const SignIn = (): JSX.Element => {
   return (
     <div className="">
       <TopNav />
