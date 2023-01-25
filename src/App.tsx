@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { Home } from "./pages/landing-page/Home";
 import SignUp from "./pages/authentication/SignUp/SignUp";
-import { SignIn } from "./pages/authentication/SignIn/SignIn";
+import SignIn from "./pages/authentication/SignIn/SignIn";
 import Blog from "./pages/blog/Blog";
 import Dashboard from "./pages/dashboard/Dashboard";
 import { onAuthStateChanged, User } from "firebase/auth";
@@ -28,7 +28,10 @@ function App(): JSX.Element {
           element={<SignUp user={user} setUser={setUser} />}
         />
 
-        <Route path="/signin" element={<SignIn />} />
+        <Route
+          path="/signin"
+          element={<SignIn user={user} setUser={setUser} />}
+        />
         <Route
           path="/dashboard"
           element={<Dashboard user={user} setUser={setUser} />}

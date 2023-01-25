@@ -24,7 +24,7 @@ const SignUp: React.FC<SignUpProps> = (user, setUser) => {
         registerEmail,
         registerPassword
       );
-      console.log(user);
+      console.log(auth);
       navigate("/dashboard");
     } catch (error: any) {
       console.log(error.message);
