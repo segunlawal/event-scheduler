@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Dispatch, SetStateAction, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import TopNav from "../../../components/TopNav";
+import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { signInWithEmailAndPassword, User } from "firebase/auth";
 import { auth } from "../../../firebase-config";
+import { FcGoogle } from "react-icons/fc";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import logo from "../../../assets/habitter.png";
 
 function SignIn(): JSX.Element {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
 
@@ -20,10 +21,12 @@ function SignIn(): JSX.Element {
         loginEmail,
         loginPassword
       );
-      console.log(auth);
-      navigate("/dashboard");
+      toast.success("Log In successful");
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 3000);
     } catch (error: any) {
-      console.log(error.message);
+      toast.error(error.message);
     }
   };
   // const signIn = async () => {
@@ -31,46 +34,70 @@ function SignIn(): JSX.Element {
   // };
 
   return (
-    <div className="text-center">
-      <TopNav />
-      <p className="text-xl">Welcome to Habitter</p>
-      <p>Create an account to keep track of your habits</p>
+    <div className="onboard min-h-screen flex flex-col py-20">
+      <ToastContainer />
+      <Link to="/">
+        <div className="flex justify-center gap-1">
+          <img src={logo} alt="habitter logo" className="w-[36px] h-[36px]" />
+          <p className="font-semibold text-3xl">Habitter</p>
+        </div>
+      </Link>
+      <p className="text-3xl mx-auto font-semibold tracking-tight py-7">
+        Welcome back
+      </p>
+      <p className="mx-auto">Please, enter your details</p>
 
-      <div className="flex flex-col">
-        <label htmlFor="last-name">Email</label>
+      <div className="flex flex-col mx-auto">
+        <label htmlFor="last-name" className="text-sm pb-1">
+          Email
+        </label>
         <input
           type="email"
           name="last-name"
-          className="border-[1px] rounded-sm mx-auto"
+          className="focus:border-2 border-[1px] rounded-lg p-3 mb-5 sm:w-[30rem] w-80 bg-transparent border-[#2b2b39] focus:outline-none"
           onChange={(event) => {
             setLoginEmail(event.target.value);
           }}
+          placeholder="Email"
         />
       </div>
 
-      <div className="flex flex-col">
-        <label htmlFor="password">Password</label>
+      <div className="flex flex-col mx-auto">
+        <label htmlFor="password" className="text-sm pb-1">
+          Password
+        </label>
         <input
           type="password"
           name="password"
-          className="border-[1px] rounded-sm mx-auto"
+          className="focus:border-2 border-[1px] rounded-lg p-3 mb-5 sm:w-[30rem] w-80 bg-transparent border-[#2b2b39] focus:outline-none"
           onChange={(event) => {
             setLoginPassword(event.target.value);
           }}
+          placeholder="Enter password"
         />
       </div>
       <button
         type="submit"
-        className="text-white px-10 py-2 bg-[#217BF4]"
+        className="text-white text-md font-light px-10 py-2 bg-[#217BF4] sm:w-[30rem] w-80 mx-auto rounded-lg mt-3"
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onClick={signIn}
       >
         Sign In
       </button>
-      <p>OR</p>
-      <button type="submit" className="px-10 border-2 py-2 border-[#217BF4]">
-        Sign In With Google
+      <p className="mx-auto py-1">OR</p>
+      <button
+        type="submit"
+        className="px-10 border-2 py-2 border-[#217BF4] sm:w-[30rem] w-80 mx-auto rounded-lg flex gap-2 justify-center"
+      >
+        <FcGoogle className="flex my-auto" />
+        <p>Sign in with Google</p>
       </button>
+      <p className="mx-auto py-3">
+        Don&apos;t have an account?{" "}
+        <Link to="/signin">
+          <span className="text-[#217BF4] tracking-tighter">Sign Up</span>
+        </Link>
+      </p>
     </div>
   );
 }
