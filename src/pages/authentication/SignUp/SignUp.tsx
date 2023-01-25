@@ -1,11 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { createUserWithEmailAndPassword, User } from "firebase/auth";
 import { auth } from "../../../firebase-config";
 import "../../../App.css";
 import logo from "../../../assets/habitter.png";
 import { FcGoogle } from "react-icons/fc";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 function SignUp(): JSX.Element {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -22,10 +25,12 @@ function SignUp(): JSX.Element {
         registerEmail,
         registerPassword
       );
-      console.log(user);
-      navigate("/dashboard");
+      toast.success("Account created successfully");
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 3000);
     } catch (error: any) {
-      console.log(error.message);
+      toast.error(error.message);
     }
   };
   // const signIn = async () => {
@@ -34,6 +39,7 @@ function SignUp(): JSX.Element {
 
   return (
     <div className="onboard min-h-screen flex flex-col py-20">
+      <ToastContainer />
       <Link to="/">
         <div className="flex justify-center gap-1">
           <img src={logo} alt="habitter logo" className="w-[36px] h-[36px]" />
