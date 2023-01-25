@@ -39,28 +39,7 @@ const SignIn: React.FC<SignInProps> = (user, setUser) => {
       <TopNav />
       <p className="text-xl">Welcome to Habitter</p>
       <p>Create an account to keep track of your habits</p>
-      {/* <div className="flex flex-col">
-        <label htmlFor="first-name">First Name</label>
-        <input
-          type="text"
-          name="first-name"
-          className="border-[1px] rounded-sm mx-auto"
-          onChange={(event) => {
-            setFirstName(event.target.value);
-          }}
-        />
-      </div>
-      <div className="flex flex-col">
-        <label htmlFor="last-name">Last Name</label>
-        <input
-          type="text"
-          name="last-name"
-          className="border-[1px] rounded-sm mx-auto"
-          onChange={(event) => {
-            setLastName(event.target.value);
-          }}
-        />
-      </div> */}
+
       <div className="flex flex-col">
         <label htmlFor="last-name">Email</label>
         <input

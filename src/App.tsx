@@ -9,6 +9,8 @@ import Blog from "./pages/blog/Blog";
 import Dashboard from "./pages/dashboard/Dashboard";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "./firebase-config";
+import ProtectedRoute from "./components/ProtectedRoute";
+import { AuthContextProvider } from "./context/AuthContext";
 
 function App(): JSX.Element {
   const [user, setUser] = useState<User | null>(null);
@@ -19,24 +21,30 @@ function App(): JSX.Element {
   }, []);
   return (
     <div className="App">
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="*" element={<Home />} />
-        <Route path="/blog" element={<Blog />} />
-        <Route
-          path="/signup"
-          element={<SignUp user={user} setUser={setUser} />}
-        />
+      <AuthContextProvider>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="*" element={<Home />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route
+            path="/signup"
+            element={<SignUp user={user} setUser={setUser} />}
+          />
 
-        <Route
-          path="/signin"
-          element={<SignIn user={user} setUser={setUser} />}
-        />
-        <Route
-          path="/dashboard"
-          element={<Dashboard user={user} setUser={setUser} />}
-        />
-      </Routes>
+          <Route
+            path="/signin"
+            element={<SignIn user={user} setUser={setUser} />}
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard user={user} setUser={setUser} />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </AuthContextProvider>
     </div>
   );
 }
