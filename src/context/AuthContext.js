@@ -6,7 +6,7 @@ const UserContext = createContext();
 
 // eslint-disable-next-line react/prop-types
 export const AuthContextProvider = ({ children }) => {
-  const [oneUser, setOneUser] = useState(null);
+  const [oneUser, setOneUser] = useState({});
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setOneUser(currentUser);

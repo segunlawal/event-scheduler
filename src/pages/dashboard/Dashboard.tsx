@@ -1,15 +1,12 @@
 import TopNav from "../../components/TopNav";
-import { Dispatch, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
-import { User, signOut } from "firebase/auth";
+import { signOut } from "firebase/auth";
 import { auth } from "../../firebase-config";
+import { UserAuth } from "../../context/AuthContext";
 
-interface DashboardProps {
-  user: User | null;
-  setUser: Dispatch<SetStateAction<User | null>>;
-}
-const Dashboard: React.FC<DashboardProps> = (user, setUser) => {
+function Dashboard(): JSX.Element {
   const navigate = useNavigate();
+  const { oneUser } = UserAuth();
 
   const logOut = async (): Promise<void> => {
     //
@@ -20,7 +17,7 @@ const Dashboard: React.FC<DashboardProps> = (user, setUser) => {
     <div className="">
       <TopNav />
       <p className="text-xl">Welcome to your Dashboard</p>
-      {user?.user?.email}
+      {oneUser?.email}
       <button
         type="submit"
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
@@ -30,5 +27,5 @@ const Dashboard: React.FC<DashboardProps> = (user, setUser) => {
       </button>
     </div>
   );
-};
+}
 export default Dashboard;

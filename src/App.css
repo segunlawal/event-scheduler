@@ -6,3 +6,10 @@
 .hero {
   background: linear-gradient(311.76deg, #d4e7fe -15.24%, #ffffff 78.85%);
 }
+.onboard {
+  background: linear-gradient(311.76deg, #d4e7fe -15.24%, #ffffff 78.85%);
+}
+
+input:-webkit-autofill {
+  -webkit-background-clip: text;
+}

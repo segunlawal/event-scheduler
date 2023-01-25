@@ -4,16 +4,12 @@ import { useNavigate } from "react-router-dom";
 import TopNav from "../../../components/TopNav";
 import { signInWithEmailAndPassword, User } from "firebase/auth";
 import { auth } from "../../../firebase-config";
-interface SignInProps {
-  user: User | null;
-  setUser: Dispatch<SetStateAction<User | null>>;
-}
-const SignIn: React.FC<SignInProps> = (user, setUser) => {
+
+function SignIn(): JSX.Element {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
-  // const [user, setUser] = useState<User | null>(null);
 
   const navigate = useNavigate();
 
@@ -77,6 +73,6 @@ const SignIn: React.FC<SignInProps> = (user, setUser) => {
       </button>
     </div>
   );
-};
+}
 
 export default SignIn;

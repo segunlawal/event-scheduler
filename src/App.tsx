@@ -26,20 +26,14 @@ function App(): JSX.Element {
           <Route path="/" element={<Home />} />
           <Route path="*" element={<Home />} />
           <Route path="/blog" element={<Blog />} />
-          <Route
-            path="/signup"
-            element={<SignUp user={user} setUser={setUser} />}
-          />
+          <Route path="/signup" element={<SignUp />} />
 
-          <Route
-            path="/signin"
-            element={<SignIn user={user} setUser={setUser} />}
-          />
+          <Route path="/signin" element={<SignIn />} />
           <Route
             path="/dashboard"
             element={
               <ProtectedRoute>
-                <Dashboard user={user} setUser={setUser} />
+                <Dashboard />
               </ProtectedRoute>
             }
           />
