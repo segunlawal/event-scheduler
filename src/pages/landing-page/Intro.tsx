@@ -2,8 +2,11 @@ import React from "react";
 import "../../../src/App.css";
 import illustration from "../../assets/habit-illustration.png";
 import { Link } from "react-router-dom";
+import { UserAuth } from "../../context/AuthContext";
 
 export const Intro = (): JSX.Element => {
+  const { oneUser } = UserAuth();
+
   return (
     <div className="hero flex md:px-[135px] px-10 md:py-[72px] py-7 shadow-md">
       <div className="lg:w-1/2 w-full md:pt-[125px]">
@@ -19,13 +22,15 @@ export const Intro = (): JSX.Element => {
         <p className="text-[#656464] pt-[18px]">
           Build good habits, break free from bad habits. One day at a time.
         </p>
-        <Link to="/signup">
-          <button
-            type="submit"
-            className="bg-[#217BF4] mt-6 px-6 py-4 text-white  font-light rounded-xl drop-shadow"
-          >
-            Get Started
-          </button>
+        <Link to={oneUser === true ? "/dashboard" : "/signup"}>
+          {
+            <button
+              type="submit"
+              className="bg-[#217BF4] mt-6 px-6 py-4 text-white  font-light rounded-xl drop-shadow"
+            >
+              {oneUser === null ? "Get Started" : "Go to Dashboard"}
+            </button>
+          }
         </Link>
       </div>
       <div className="w-1/2 hidden lg:block">

@@ -1,15 +1,27 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 import React, { useState, useRef } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../assets/habitter.png";
 import "../../src/App.css";
 import ClickAwayListener from "@mui/base/ClickAwayListener";
+import { UserAuth } from "../context/AuthContext";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase-config";
 
 // eslint-disable-next-line no-unused-vars
 export default function NavBar(): JSX.Element {
   const navMenu = useRef(null);
   const [navbar, setNavbar] = useState(false);
+  const navigate = useNavigate();
   const handleClickAway = (): void => {
     setNavbar(false);
+  };
+  const { oneUser } = UserAuth();
+
+  const logOut = async (): Promise<void> => {
+    //
+    await signOut(auth);
+    navigate("/");
   };
 
   return (
@@ -93,28 +105,34 @@ export default function NavBar(): JSX.Element {
                 <li className="leading-[25px]">
                   <NavLink
                     reloadDocument
-                    to="/signup"
+                    to={oneUser === null ? "/signup" : "/dashboard"}
                     className={({ isActive }) =>
                       isActive
                         ? " flex items-center text-[#217BF4] font-bold"
                         : "hover:text-[#217BF4] flex items-center"
                     }
                   >
-                    Sign Up
+                    {oneUser === null ? "Sign Up" : "Dashboard"}
                   </NavLink>
                 </li>
                 <li className="leading-[25px]">
-                  <NavLink
-                    reloadDocument
-                    to="/signin"
-                    className={({ isActive }) =>
-                      isActive
-                        ? " flex items-center text-[#217BF4] font-bold"
-                        : "hover:text-[#217BF4] flex items-center"
-                    }
-                  >
-                    Sign In
-                  </NavLink>
+                  {oneUser === null ? (
+                    <NavLink
+                      reloadDocument
+                      to="/signin"
+                      className={({ isActive }) =>
+                        isActive
+                          ? " flex items-center text-[#217BF4] font-bold"
+                          : "hover:text-[#217BF4] flex items-center"
+                      }
+                    >
+                      Sign In
+                    </NavLink>
+                  ) : (
+                    <button type="submit" onClick={logOut}>
+                      Log Out
+                    </button>
+                  )}
                 </li>
               </ul>
             </div>
