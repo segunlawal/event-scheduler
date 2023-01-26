@@ -7,7 +7,7 @@ const ProtectedRoute = ({ children }) => {
   const navigate = useNavigate();
 
   if (!oneUser) {
-    navigate("/signin");
+    navigate("/signup");
   }
   return children;
 };

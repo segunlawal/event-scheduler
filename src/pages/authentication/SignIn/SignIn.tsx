@@ -1,18 +1,20 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { signInWithEmailAndPassword, User } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../firebase-config";
 import { FcGoogle } from "react-icons/fc";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import logo from "../../../assets/habitter.png";
+import { UserAuth } from "../../../context/AuthContext";
 
 function SignIn(): JSX.Element {
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
-
   const navigate = useNavigate();
+  const { oneUser, googleSignIn } = UserAuth();
 
   const signIn = async (): Promise<void> => {
     try {
@@ -29,9 +31,21 @@ function SignIn(): JSX.Element {
       toast.error(error.message);
     }
   };
-  // const signIn = async () => {
-  //   //
-  // };
+
+  const handleGoogleSignIn = async (): Promise<void> => {
+    try {
+      await googleSignIn();
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
+
+  // handle navigation for google sign in
+  useEffect(() => {
+    if (oneUser != null) {
+      navigate("/dashboard");
+    }
+  }, [oneUser]);
 
   return (
     <div className="onboard min-h-screen flex flex-col py-20">
@@ -79,7 +93,6 @@ function SignIn(): JSX.Element {
       <button
         type="submit"
         className="text-white text-md font-light px-10 py-2 bg-[#217BF4] sm:w-[30rem] w-80 mx-auto rounded-lg mt-3"
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onClick={signIn}
       >
         Sign In
@@ -88,8 +101,9 @@ function SignIn(): JSX.Element {
       <button
         type="submit"
         className="px-10 border-2 py-2 border-[#217BF4] sm:w-[30rem] w-80 mx-auto rounded-lg flex gap-2 justify-center"
+        onClick={handleGoogleSignIn}
       >
-        <FcGoogle className="flex my-auto" />
+        <FcGoogle className="flex my-auto text-2xl" />
         <p>Sign in with Google</p>
       </button>
       <p className="mx-auto py-3">
