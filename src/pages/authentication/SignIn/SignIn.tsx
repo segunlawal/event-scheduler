@@ -43,7 +43,7 @@ function SignIn(): JSX.Element {
         </div>
       </Link>
       <p className="text-3xl mx-auto font-semibold tracking-tight py-7">
-        Welcome back
+        Welcome back!
       </p>
       <p className="mx-auto">Please, enter your details</p>
 
@@ -94,7 +94,7 @@ function SignIn(): JSX.Element {
       </button>
       <p className="mx-auto py-3">
         Don&apos;t have an account?{" "}
-        <Link to="/signin">
+        <Link to="/signup">
           <span className="text-[#217BF4] tracking-tighter">Sign Up</span>
         </Link>
       </p>

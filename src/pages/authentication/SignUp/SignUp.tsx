@@ -10,11 +10,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function SignUp(): JSX.Element {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
-  // const [user, setUser] = useState<User | null>(null);
 
   const navigate = useNavigate();
 
@@ -49,34 +46,7 @@ function SignUp(): JSX.Element {
       <p className="text-3xl mx-auto font-semibold tracking-tight py-7">
         Create an account
       </p>
-      <div className="flex flex-col mx-auto">
-        <label htmlFor="first-name" className="text-sm pb-1">
-          First Name
-        </label>
-        <input
-          type="text"
-          name="first-name"
-          className="focus:border-2 border-[1px] rounded-lg p-3 mb-5 sm:w-[30rem] w-80 bg-transparent border-[#2b2b39] focus:outline-none"
-          onChange={(event) => {
-            setFirstName(event.target.value);
-          }}
-          placeholder="First Name"
-        />
-      </div>
-      <div className="flex flex-col mx-auto">
-        <label htmlFor="last-name" className="text-sm pb-1">
-          Last Name
-        </label>
-        <input
-          type="text"
-          name="last-name"
-          className="focus:border-2 border-[1px] rounded-lg p-3 mb-5 sm:w-[30rem] w-80 bg-transparent border-[#2b2b39] focus:outline-none"
-          onChange={(event) => {
-            setLastName(event.target.value);
-          }}
-          placeholder="Last Name"
-        />
-      </div>
+
       <div className="flex flex-col mx-auto">
         <label htmlFor="last-name" className="text-sm pb-1">
           Email

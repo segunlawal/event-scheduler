@@ -10,6 +10,7 @@ import Dashboard from "./pages/dashboard/Dashboard";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "./firebase-config";
 import ProtectedRoute from "./components/ProtectedRoute";
+import PublicRoute from "./components/PublicRoute";
 import { AuthContextProvider } from "./context/AuthContext";
 
 function App(): JSX.Element {
@@ -26,9 +27,23 @@ function App(): JSX.Element {
           <Route path="/" element={<Home />} />
           <Route path="*" element={<Home />} />
           <Route path="/blog" element={<Blog />} />
-          <Route path="/signup" element={<SignUp />} />
+          <Route
+            path="/signup"
+            element={
+              <PublicRoute>
+                <SignUp />
+              </PublicRoute>
+            }
+          />
 
-          <Route path="/signin" element={<SignIn />} />
+          <Route
+            path="/signin"
+            element={
+              <PublicRoute>
+                <SignIn />
+              </PublicRoute>
+            }
+          />
           <Route
             path="/dashboard"
             element={
