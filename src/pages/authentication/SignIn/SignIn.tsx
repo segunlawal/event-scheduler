@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../firebase-config";
@@ -9,14 +9,26 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import logo from "../../../assets/habitter.png";
 import { UserAuth } from "../../../context/AuthContext";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+
+interface FormValues {
+  loginEmail: string;
+  loginPassword: string;
+}
+const SignInSchema = Yup.object().shape({
+  loginEmail: Yup.string()
+    .email("Invalid email")
+    .required("Please enter your email address"),
+  loginPassword: Yup.string().required("Password is required"),
+});
 
 function SignIn(): JSX.Element {
-  const [loginEmail, setLoginEmail] = useState("");
-  const [loginPassword, setLoginPassword] = useState("");
   const navigate = useNavigate();
   const { oneUser, googleSignIn } = UserAuth();
 
-  const signIn = async (): Promise<void> => {
+  const signIn = async (values: FormValues): Promise<void> => {
+    const { loginEmail, loginPassword } = values;
     try {
       const user = await signInWithEmailAndPassword(
         auth,
@@ -61,42 +73,57 @@ function SignIn(): JSX.Element {
       </p>
       <p className="mx-auto">Please, enter your details</p>
 
-      <div className="flex flex-col mx-auto">
-        <label htmlFor="last-name" className="text-sm pb-1">
-          Email
-        </label>
-        <input
-          type="email"
-          name="last-name"
-          className="focus:border-2 border-[1px] rounded-lg p-3 mb-5 sm:w-[30rem] w-80 bg-transparent border-[#2b2b39] focus:outline-none"
-          onChange={(event) => {
-            setLoginEmail(event.target.value);
-          }}
-          placeholder="Email"
-        />
-      </div>
-
-      <div className="flex flex-col mx-auto">
-        <label htmlFor="password" className="text-sm pb-1">
-          Password
-        </label>
-        <input
-          type="password"
-          name="password"
-          className="focus:border-2 border-[1px] rounded-lg p-3 mb-5 sm:w-[30rem] w-80 bg-transparent border-[#2b2b39] focus:outline-none"
-          onChange={(event) => {
-            setLoginPassword(event.target.value);
-          }}
-          placeholder="Enter password"
-        />
-      </div>
-      <button
-        type="submit"
-        className="text-white text-md font-light px-10 py-2 bg-[#217BF4] sm:w-[30rem] w-80 mx-auto rounded-lg mt-3"
-        onClick={signIn}
+      <Formik
+        initialValues={{
+          loginEmail: "",
+          loginPassword: "",
+        }}
+        validationSchema={SignInSchema}
+        onSubmit={signIn}
       >
-        Sign In
-      </button>
+        {(formik) => (
+          <Form className="flex flex-col mx-auto">
+            <div className="flex flex-col mx-auto">
+              <label htmlFor="registerEmail" className="text-sm pb-1">
+                Email
+              </label>
+              <Field
+                name="registerEmail"
+                className="focus:border-2 border-[1px] rounded-lg p-3 sm:w-[30rem] w-80 bg-transparent border-[#2b2b39] focus:outline-none"
+                placeholder="Email"
+              />
+              <ErrorMessage
+                name="registerEmail"
+                component="div"
+                className="text-red-700"
+              />
+            </div>
+            <div className="flex flex-col mx-auto">
+              <label htmlFor="registerPassword" className="text-sm pb-1 mt-5">
+                Password
+              </label>
+              <Field
+                name="registerPassword"
+                className="focus:border-2 border-[1px] rounded-lg p-3 sm:w-[30rem] w-80 bg-transparent border-[#2b2b39] focus:outline-none"
+                placeholder="Enter password"
+              />
+              <ErrorMessage
+                name="registerPassword"
+                component="div"
+                className="text-red-700"
+              />
+            </div>
+
+            <button
+              disabled={!formik.isValid || !formik.dirty}
+              type="submit"
+              className="text-white text-md font-light px-10 py-2 bg-[#217BF4] sm:w-[30rem] w-80 mx-auto rounded-lg mt-3 disabled:opacity-50 transition-all duration-300"
+            >
+              Log In
+            </button>
+          </Form>
+        )}
+      </Formik>
       <p className="mx-auto py-1">OR</p>
       <button
         type="submit"
