@@ -53,11 +53,11 @@ function SignIn(): JSX.Element {
   };
 
   // handle navigation for google sign in
-  useEffect(() => {
-    if (oneUser != null) {
-      navigate("/dashboard");
-    }
-  }, [oneUser]);
+  // useEffect(() => {
+  //   if (oneUser != null) {
+  //     navigate("/dashboard");
+  //   }
+  // }, [oneUser]);
 
   return (
     <div className="onboard min-h-screen flex flex-col py-20">
@@ -84,31 +84,31 @@ function SignIn(): JSX.Element {
         {(formik) => (
           <Form className="flex flex-col mx-auto">
             <div className="flex flex-col mx-auto">
-              <label htmlFor="registerEmail" className="text-sm pb-1">
+              <label htmlFor="loginEmail" className="text-sm pb-1">
                 Email
               </label>
               <Field
-                name="registerEmail"
+                name="loginEmail"
                 className="focus:border-2 border-[1px] rounded-lg p-3 sm:w-[30rem] w-80 bg-transparent border-[#2b2b39] focus:outline-none"
                 placeholder="Email"
               />
               <ErrorMessage
-                name="registerEmail"
+                name="loginEmail"
                 component="div"
                 className="text-red-700"
               />
             </div>
             <div className="flex flex-col mx-auto">
-              <label htmlFor="registerPassword" className="text-sm pb-1 mt-5">
+              <label htmlFor="loginPassword" className="text-sm pb-1 mt-5">
                 Password
               </label>
               <Field
-                name="registerPassword"
+                name="loginPassword"
                 className="focus:border-2 border-[1px] rounded-lg p-3 sm:w-[30rem] w-80 bg-transparent border-[#2b2b39] focus:outline-none"
                 placeholder="Enter password"
               />
               <ErrorMessage
-                name="registerPassword"
+                name="loginPassword"
                 component="div"
                 className="text-red-700"
               />
