@@ -29,14 +29,7 @@ function App(): JSX.Element {
           <Route path="/blog" element={<Blog />} />
           <Route path="/signup" element={<SignUp />} />
 
-          <Route
-            path="/signin"
-            element={
-              <PublicRoute>
-                <SignIn />
-              </PublicRoute>
-            }
-          />
+          <Route path="/signin" element={<SignIn />} />
           <Route
             path="/dashboard"
             element={

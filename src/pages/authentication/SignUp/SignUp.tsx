@@ -56,7 +56,6 @@ function SignUp(): JSX.Element {
     }
   };
 
-  // handle navigation for google sign in
   useEffect(() => {
     if (oneUser != null) {
       navigate("/dashboard");
