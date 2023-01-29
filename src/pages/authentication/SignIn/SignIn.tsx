@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../firebase-config";
@@ -11,6 +11,7 @@ import logo from "../../../assets/habitter.png";
 import { UserAuth } from "../../../context/AuthContext";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 interface FormValues {
   loginEmail: string;
@@ -26,7 +27,13 @@ const SignInSchema = Yup.object().shape({
 function SignIn(): JSX.Element {
   const navigate = useNavigate();
   const { oneUser, googleSignIn } = UserAuth();
+  const [showPassword, setShowPassword] = useState("password");
 
+  const handletoggle = (): void => {
+    showPassword === "password"
+      ? setShowPassword("text")
+      : setShowPassword("password");
+  };
   const signIn = async (values: FormValues): Promise<void> => {
     const { loginEmail, loginPassword } = values;
     try {
@@ -63,7 +70,6 @@ function SignIn(): JSX.Element {
     <div className="onboard min-h-screen flex flex-col py-20">
       <ToastContainer />
 
-      {/* <ClockLoader color="#36d7b7" /> */}
       <Link to="/">
         <div className="flex justify-center gap-1">
           <img src={logo} alt="habitter logo" className="w-[36px] h-[36px]" />
@@ -94,6 +100,7 @@ function SignIn(): JSX.Element {
                 className="focus:border-2 border-[1px] rounded-lg p-3 sm:w-[30rem] w-80 bg-transparent border-[#2b2b39] focus:outline-none"
                 placeholder="Email"
               />
+
               <ErrorMessage
                 name="loginEmail"
                 component="div"
@@ -104,11 +111,28 @@ function SignIn(): JSX.Element {
               <label htmlFor="loginPassword" className="text-sm pb-1 mt-5">
                 Password
               </label>
-              <Field
-                name="loginPassword"
-                className="focus:border-2 border-[1px] rounded-lg p-3 sm:w-[30rem] w-80 bg-transparent border-[#2b2b39] focus:outline-none"
-                placeholder="Enter password"
-              />
+
+              <div className="input-container relative">
+                <Field
+                  name="loginPassword"
+                  className="focus:border-2 border-[1px] rounded-lg p-3 sm:w-[30rem] w-80 bg-transparent border-[#2b2b39] focus:outline-none"
+                  placeholder="Enter password"
+                  type={showPassword}
+                />
+                {showPassword === "password" ? (
+                  <FaEye
+                    onClick={handletoggle}
+                    size="1.2rem"
+                    className="cursor-pointer absolute top-[33%] right-[3%]"
+                  />
+                ) : (
+                  <FaEyeSlash
+                    onClick={handletoggle}
+                    size="1.2rem"
+                    className="cursor-pointer absolute top-[33%] right-[3%]"
+                  />
+                )}
+              </div>
               <ErrorMessage
                 name="loginPassword"
                 component="div"

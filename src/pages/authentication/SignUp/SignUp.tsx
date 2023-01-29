@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../firebase-config";
@@ -12,6 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { UserAuth } from "../../../context/AuthContext";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 interface FormValues {
   registerEmail: string;
   registerPassword: string;
@@ -30,6 +31,18 @@ const SignUpSchema = Yup.object().shape({
 function SignUp(): JSX.Element {
   const navigate = useNavigate();
   const { oneUser, googleSignIn } = UserAuth();
+  const [showPassword, setShowPassword] = useState("password");
+  const [showConfirmPassword, setShowConfirmPassword] = useState("password");
+  const handletoggle = (): void => {
+    showPassword === "password"
+      ? setShowPassword("text")
+      : setShowPassword("password");
+  };
+  const handletoggle2 = (): void => {
+    showConfirmPassword === "password"
+      ? setShowConfirmPassword("text")
+      : setShowConfirmPassword("password");
+  };
 
   const signUp = async (values: FormValues): Promise<void> => {
     const { registerEmail, registerPassword } = values;
@@ -105,11 +118,27 @@ function SignUp(): JSX.Element {
               <label htmlFor="registerPassword" className="text-sm pb-1 mt-5">
                 Password
               </label>
-              <Field
-                name="registerPassword"
-                className="focus:border-2 border-[1px] rounded-lg p-3 sm:w-[30rem] w-80 bg-transparent border-[#2b2b39] focus:outline-none"
-                placeholder="Enter password"
-              />
+              <div className="input-container relative">
+                <Field
+                  name="registerPassword"
+                  className="focus:border-2 border-[1px] rounded-lg p-3 sm:w-[30rem] w-80 bg-transparent border-[#2b2b39] focus:outline-none"
+                  placeholder="Enter password"
+                  type={showPassword}
+                />
+                {showPassword === "password" ? (
+                  <FaEye
+                    onClick={handletoggle}
+                    size="1.2rem"
+                    className="cursor-pointer absolute top-[33%] right-[3%]"
+                  />
+                ) : (
+                  <FaEyeSlash
+                    onClick={handletoggle}
+                    size="1.2rem"
+                    className="cursor-pointer absolute top-[33%] right-[3%]"
+                  />
+                )}
+              </div>
               <ErrorMessage
                 name="registerPassword"
                 component="div"
@@ -120,11 +149,30 @@ function SignUp(): JSX.Element {
               <label htmlFor="confirmPassword" className="text-sm mt-5 pb-1">
                 Confirm Password
               </label>
-              <Field
-                name="confirmPassword"
-                className="focus:border-2 border-[1px] rounded-lg p-3 sm:w-[30rem] w-80 bg-transparent border-[#2b2b39] focus:outline-none"
-                placeholder="Confirm password"
-              />
+              <div className="input-container relative">
+                <Field
+                  name="confirmPassword"
+                  className="focus:border-2 border-[1px] rounded-lg p-3 sm:w-[30rem] w-80 bg-transparent border-[#2b2b39] focus:outline-none"
+                  placeholder="Confirm password"
+                  type={showConfirmPassword}
+                />
+                {showConfirmPassword === "password" ? (
+                  <FaEye
+                    onClick={handletoggle2}
+                    size="1.2rem"
+                    color="grey"
+                    className="cursor-pointer absolute top-[33%] right-[3%]"
+                  />
+                ) : (
+                  <FaEyeSlash
+                    onClick={handletoggle2}
+                    size="1.2rem"
+                    color="grey"
+                    className="cursor-pointer absolute top-[33%] right-[3%]"
+                  />
+                )}
+              </div>
+
               <ErrorMessage
                 name="confirmPassword"
                 component="div"
@@ -136,7 +184,6 @@ function SignUp(): JSX.Element {
               disabled={!formik.isValid || !formik.dirty}
               type="submit"
               className="text-white text-md font-light px-10 py-2 bg-[#217BF4] sm:w-[30rem] w-80 mx-auto rounded-lg mt-3 disabled:opacity-50 transition-all duration-300"
-              // onClick={signUp}
             >
               Create Account
             </button>
