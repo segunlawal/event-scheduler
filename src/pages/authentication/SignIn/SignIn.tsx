@@ -54,6 +54,7 @@ function SignIn(): JSX.Element {
   const handleGoogleSignIn = async (): Promise<void> => {
     try {
       await googleSignIn();
+      navigate("/dashboard");
     } catch (error: any) {
       toast.error(error.message);
     }

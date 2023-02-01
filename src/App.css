@@ -13,6 +13,3 @@
 input:-webkit-autofill {
   -webkit-background-clip: text;
 }
-input[type="password"] {
-  /* letter-spacing: 0.125em; */
-}
