@@ -10,7 +10,7 @@ import Dashboard from "./pages/dashboard/Dashboard";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "./firebase-config";
 import ProtectedRoute from "./components/ProtectedRoute";
-import PublicRoute from "./components/PublicRoute";
+// import PublicRoute from "./components/PublicRoute";
 import { AuthContextProvider } from "./context/AuthContext";
 
 function App(): JSX.Element {

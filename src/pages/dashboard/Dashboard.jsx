@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import TopNav from "../../components/TopNav";
 import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
@@ -10,26 +9,28 @@ import ClipLoader from "react-spinners/ClipLoader";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-function Dashboard(): JSX.Element {
+function Dashboard() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-  const [habits, setHabits] = useState({});
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+  const [habits, setHabits] = useState([]);
 
   const habitsRef = collection(db, "habits");
   useEffect(() => {
-    const getHabits = async (): Promise<void> => {
+    const getHabits = async () => {
       const data = await getDocs(habitsRef);
       const filteredData = data.docs.map((doc) => ({
         ...doc.data(),
         id: doc.id,
       }));
       try {
+        // console.log(filteredData);
         setHabits(filteredData);
-      } catch (error: any) {
+      } catch (error) {
         toast.error(error.message);
       }
     };
-    void getHabits();
+    getHabits();
   }, []);
 
   const { oneUser } = UserAuth();
@@ -39,15 +40,19 @@ function Dashboard(): JSX.Element {
       setLoading(false);
     }
   }, [oneUser]);
-  const logOut = async (): Promise<void> => {
+  const logOut = async () => {
     await signOut(auth);
     navigate("/");
   };
 
-  // const eachHabit = habits?.map((habit) => {
-  //   return <p key={habit.id}>{habit.habitName}</p>;
-  // });
-  console.log(habits);
+  const eachHabit = habits?.map((habit) => {
+    return (
+      <div key={habit.id}>
+        <p>{habit.habitName}</p>
+        {/* <p>{habit.goalInDays}</p> */}
+      </div>
+    );
+  });
 
   return (
     <div className="">
@@ -61,13 +66,11 @@ function Dashboard(): JSX.Element {
           <TopNav />
           <p className="text-xl">Welcome to your Dashboard</p>
           <p>{oneUser?.email}</p>
-          <button
-            type="submit"
-            // eslint-disable-next-line @typescript-eslint/no-misused-promises
-            onClick={logOut}
-          >
+          <button type="submit" onClick={logOut}>
             Log out
           </button>
+          <p className="text-2xl">A list of my habits</p>
+          {eachHabit}
         </>
       )}
     </div>
