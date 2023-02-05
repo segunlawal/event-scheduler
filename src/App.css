@@ -9,7 +9,11 @@
 .onboard {
   background: linear-gradient(311.76deg, #d4e7fe -15.24%, #ffffff 78.85%);
 }
-
 input:-webkit-autofill {
   -webkit-background-clip: text;
+}
+.drop-down {
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
 }
