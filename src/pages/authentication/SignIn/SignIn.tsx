@@ -70,7 +70,6 @@ function SignIn(): JSX.Element {
   return (
     <div className="onboard min-h-screen flex flex-col py-20">
       <ToastContainer />
-
       <Link to="/">
         <div className="flex justify-center gap-1">
           <img src={logo} alt="habitter logo" className="w-[36px] h-[36px]" />
