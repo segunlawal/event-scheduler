@@ -1,7 +1,7 @@
 import { useNavigate, NavLink } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth, db } from "../../firebase-config";
-import { getDocs, collection } from "firebase/firestore";
+import { getDocs, collection, deleteDoc, doc } from "firebase/firestore";
 import { UserAuth } from "../../context/AuthContext";
 import { useEffect, useState } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
@@ -15,9 +15,6 @@ function Dashboard() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [habits, setHabits] = useState([]);
-  const [newHabitName, setNewHabitName] = useState("");
-  const [newHabitDesc, setNewHabitDesc] = useState("");
-  const [newHabitDuration, setNewHabitDuration] = useState(0);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [showDropDown, setShowDropDown] = useState(false);
 
@@ -34,6 +31,12 @@ function Dashboard() {
       toast.error(error.message);
     }
   };
+
+  const deleteHabit = async (id) => {
+    const habitDoc = doc(db, "habits", id);
+    await deleteDoc(habitDoc);
+  };
+
   useEffect(() => {
     getHabits();
   }, []);
@@ -54,6 +57,12 @@ function Dashboard() {
     return (
       <div key={habit.id}>
         <p>{habit.habitName}</p>
+        <button
+          className="border-2 bg-red-700 text-white cursor-pointer"
+          onClick={() => deleteHabit(habit.id)}
+        >
+          Delete Habit
+        </button>
       </div>
     );
   });
@@ -68,15 +77,9 @@ function Dashboard() {
       ) : (
         <div className="">
           <CreateHabitModal
-            newHabitName={newHabitName}
-            newHabitDesc={newHabitDesc}
-            newHabitDuration={newHabitDuration}
             getHabits={getHabits}
             modalIsOpen={modalIsOpen}
             setModalIsOpen={setModalIsOpen}
-            setNewHabitName={setNewHabitName}
-            setNewHabitDesc={setNewHabitDesc}
-            setNewHabitDuration={setNewHabitDuration}
           />
           <div className="p-5 flex justify-between">
             <NavLink to="/" className="flex gap-[6px]">

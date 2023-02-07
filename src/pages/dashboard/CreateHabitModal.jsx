@@ -85,7 +85,7 @@ const CreateHabitModal = (props) => {
               <div className="flex flex-col">
                 <label>Habit Description</label>
                 <Field
-                  control="textarea"
+                  as="textarea"
                   name="newHabitDesc"
                   className="border-[1px] border-[#2b2b39] p-2 rounded-sm"
                   placeholder="Briefly describe habit"
