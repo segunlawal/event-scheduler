@@ -7,6 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { AiOutlineClose } from "react-icons/ai";
 
 const CreateHabitSchema = Yup.object().shape({
   newHabitName: Yup.string()
@@ -68,7 +69,15 @@ const CreateHabitModal = (props) => {
         >
           {(formik) => (
             <Form className="flex flex-col mx-auto w-full px-10 gap-3">
-              <p className="text-xl">Create a new habit</p>
+              <div className="flex justify-between">
+                <p className="text-xl">Create a new habit</p>
+                <AiOutlineClose
+                  className="my-auto cursor-pointer text-xl"
+                  onClick={() => {
+                    setModalIsOpen(false);
+                  }}
+                />
+              </div>
               <div className="flex flex-col">
                 <label>Habit Name</label>
                 <Field
