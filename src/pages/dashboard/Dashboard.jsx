@@ -1,7 +1,7 @@
 import { useNavigate, NavLink } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth, db } from "../../firebase-config";
-import { getDocs, collection, deleteDoc, doc } from "firebase/firestore";
+import { getDocs, collection } from "firebase/firestore";
 import { UserAuth } from "../../context/AuthContext";
 import { useEffect, useState } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
@@ -11,7 +11,7 @@ import logo from "../../assets/habitter.png";
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { IoMdArrowDropdown } from "react-icons/io";
 import CreateHabitModal from "./CreateHabitModal";
-import Modal from "react-modal";
+import ModifyHabitModal from "./ModifyHabitModal";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -36,11 +36,6 @@ function Dashboard() {
   };
 
   // delete a habit
-  const deleteHabit = async (id) => {
-    const habitDoc = doc(db, "habits", id);
-    await deleteDoc(habitDoc);
-    getHabits();
-  };
 
   useEffect(() => {
     getHabits();
@@ -61,37 +56,12 @@ function Dashboard() {
   const eachHabit = habits?.map((habit) => {
     return (
       <div key={habit.id}>
-        <Modal
-          style={{
-            overlay: {
-              position: "fixed",
-              background: "rgba(24, 49, 64, 0.23)",
-              backdropFilter: 'blur("91px")',
-            },
-          }}
-          isOpen={deleteModalIsOpen}
-          className="bg-white flex flex-col mt-[10%] py-10 sm:w-[40%] w-[90%] mx-auto justify-center items-center"
-          appElement={document.getElementById("root") || undefined}
-          onRequestClose={() => {
-            setDeleteModalIsOpen(false);
-          }}
-        >
-          <p className="px-3">Are you sure you want to delete this habit?</p>
-          <div className=" flex gap-3">
-            <button
-              onClick={() => deleteHabit(habit.id)}
-              className="bg-red-700 text-white px-3 py-2 rounded-md"
-            >
-              Delete
-            </button>
-            <button
-              onClick={() => setDeleteModalIsOpen(false)}
-              className="border-2 px-3 py-2 rounded-md"
-            >
-              Cancel
-            </button>
-          </div>
-        </Modal>
+        <ModifyHabitModal
+          habitId={habit.id}
+          getHabits={getHabits}
+          deleteModalIsOpen={deleteModalIsOpen}
+          setDeleteModalIsOpen={setDeleteModalIsOpen}
+        />
         <p>{habit.habitName}</p>
         <div className="flex gap-2">
           <AiOutlineDelete
