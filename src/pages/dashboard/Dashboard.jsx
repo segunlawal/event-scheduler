@@ -20,6 +20,7 @@ function Dashboard() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [deleteModalIsOpen, setDeleteModalIsOpen] = useState(false);
   const [showDropDown, setShowDropDown] = useState(false);
+  const [activeId, setActiveId] = useState("");
 
   const habitsRef = collection(db, "habits");
   const getHabits = async () => {
@@ -53,20 +54,25 @@ function Dashboard() {
     navigate("/");
   };
 
+  function handleModal(id) {
+    setDeleteModalIsOpen(true);
+    setActiveId(id);
+  }
+
   const eachHabit = habits?.map((habit) => {
     return (
       <div key={habit.id}>
         <ModifyHabitModal
-          habitId={habit.id}
           getHabits={getHabits}
           deleteModalIsOpen={deleteModalIsOpen}
           setDeleteModalIsOpen={setDeleteModalIsOpen}
+          activeId={activeId}
         />
         <p>{habit.habitName}</p>
         <div className="flex gap-2">
           <AiOutlineDelete
             className="text-xl cursor-pointer fill-red-700"
-            onClick={() => setDeleteModalIsOpen(true)}
+            onClick={() => handleModal(habit.id)}
           />
           <AiOutlineEdit className="text-xl cursor-pointer fill-[#ffaf2e]" />
         </div>

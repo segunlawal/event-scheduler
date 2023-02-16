@@ -1,4 +1,3 @@
-import React from "react";
 import "../../../src/App.css";
 import illustration from "../../assets/habit-illustration.png";
 import { Link } from "react-router-dom";
