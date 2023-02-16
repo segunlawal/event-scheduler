@@ -11,7 +11,8 @@ import logo from "../../assets/habitter.png";
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { IoMdArrowDropdown } from "react-icons/io";
 import CreateHabitModal from "./CreateHabitModal";
-import ModifyHabitModal from "./ModifyHabitModal";
+import ModifyHabitModal from "./DeleteHabitModal";
+import EditHabitModal from "./EditHabitModal";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -19,8 +20,10 @@ function Dashboard() {
   const [habits, setHabits] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [deleteModalIsOpen, setDeleteModalIsOpen] = useState(false);
+  const [editModalIsOpen, setEditModalIsOpen] = useState(false);
   const [showDropDown, setShowDropDown] = useState(false);
-  const [activeId, setActiveId] = useState("");
+  const [activeDeleteId, setactiveDeleteId] = useState("");
+  const [activeEditId, setactiveEditId] = useState("");
 
   const habitsRef = collection(db, "habits");
   const getHabits = async () => {
@@ -35,8 +38,6 @@ function Dashboard() {
       toast.error(error.message);
     }
   };
-
-  // delete a habit
 
   useEffect(() => {
     getHabits();
@@ -54,9 +55,13 @@ function Dashboard() {
     navigate("/");
   };
 
-  function handleModal(id) {
+  function handleDeleteModal(id) {
     setDeleteModalIsOpen(true);
-    setActiveId(id);
+    setactiveDeleteId(id);
+  }
+  function handleEditModal(id) {
+    setEditModalIsOpen(true);
+    setactiveEditId(id);
   }
 
   const eachHabit = habits?.map((habit) => {
@@ -66,15 +71,25 @@ function Dashboard() {
           getHabits={getHabits}
           deleteModalIsOpen={deleteModalIsOpen}
           setDeleteModalIsOpen={setDeleteModalIsOpen}
-          activeId={activeId}
+          activeDeleteId={activeDeleteId}
+        />
+        <EditHabitModal
+          getHabits={getHabits}
+          editModalIsOpen={editModalIsOpen}
+          setEditModalIsOpen={setEditModalIsOpen}
+          activeEditId={activeEditId}
+          habits={habits}
         />
         <p>{habit.habitName}</p>
         <div className="flex gap-2">
           <AiOutlineDelete
             className="text-xl cursor-pointer fill-red-700"
-            onClick={() => handleModal(habit.id)}
+            onClick={() => handleDeleteModal(habit.id)}
           />
-          <AiOutlineEdit className="text-xl cursor-pointer fill-[#ffaf2e]" />
+          <AiOutlineEdit
+            className="text-xl cursor-pointer fill-[#ffaf2e]"
+            onClick={() => handleEditModal(habit.id)}
+          />
         </div>
         <hr />
       </div>
