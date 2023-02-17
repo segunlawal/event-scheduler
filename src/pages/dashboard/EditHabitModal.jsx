@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Modal from "react-modal";
 import PropTypes from "prop-types";
-// import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 // import { doc } from "firebase/firestore";
 // import { db } from "../../firebase-config";
@@ -27,25 +27,22 @@ const EditHabitModal = (props) => {
     setEditModalIsOpen,
   } = props;
 
-  //   const [currentHabitName, setCurrentHabitName] = useState("");
-  //   const [currentHabitDesc, setCurrentHabitDesc] = useState("");
-  //   const [currentHabitDuration, setCurrentHabitDuration] = useState(0);
+  const currentHabitName = habits?.find(
+    (habit) => habit.id === activeEditId
+  )?.habitName;
+  const currentHabitDesc = habits?.find(
+    (habit) => habit.id === activeEditId
+  )?.habitDescription;
+  const currentHabitDuration = habits?.find(
+    (habit) => habit.id === activeEditId
+  )?.numberOfDays;
 
-  habits?.map((habit) => {
-    if (habit?.id === activeEditId) {
-      // setCurrentHabitName(habit.habitName);
-      // setCurrentHabitDesc(habit.habitDescription);
-      // setCurrentHabitDuration(habit.numberOfDays);
-      console.log(habit?.habitName);
-    }
-    return habit;
-  });
   // eslint-disable-next-line no-unused-vars
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   return (
     <div>
-      {/* <ToastContainer /> */}
+      <ToastContainer />
       <Modal
         style={{
           overlay: {
@@ -63,9 +60,9 @@ const EditHabitModal = (props) => {
       >
         <Formik
           initialValues={{
-            newHabitName: "",
-            newHabitDesc: "",
-            newHabitDuration: 0,
+            newHabitName: currentHabitName,
+            newHabitDesc: currentHabitDesc,
+            newHabitDuration: currentHabitDuration,
           }}
           validationSchema={EditHabitSchema}
           //   onSubmit={handleNewHabit}
