@@ -1,10 +1,10 @@
 import { useState } from "react";
 import Modal from "react-modal";
 import PropTypes from "prop-types";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import { doc } from "firebase/firestore";
-// import { db } from "../../firebase-config";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "../../firebase-config";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { AiOutlineClose } from "react-icons/ai";
@@ -21,11 +21,12 @@ const EditHabitSchema = Yup.object().shape({
 const EditHabitModal = (props) => {
   const {
     activeEditId,
-    // getHabits,
+    getHabits,
     habits,
     editModalIsOpen,
     setEditModalIsOpen,
   } = props;
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   const currentHabitName = habits?.find(
     (habit) => habit.id === activeEditId
@@ -37,8 +38,24 @@ const EditHabitModal = (props) => {
     (habit) => habit.id === activeEditId
   )?.numberOfDays;
 
-  // eslint-disable-next-line no-unused-vars
-  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const handleEditHabit = async (values) => {
+    const { newHabitName, newHabitDesc, newHabitDuration } = values;
+    setIsButtonDisabled(true);
+    try {
+      const habitDoc = doc(db, "habits", activeEditId);
+      await updateDoc(habitDoc, {
+        habitName: newHabitName,
+        habitDescription: newHabitDesc,
+        numberOfDays: newHabitDuration,
+      });
+      toast.success("Habit updated", { autoClose: 2000 });
+      getHabits();
+      setEditModalIsOpen(false);
+      setIsButtonDisabled(false);
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
 
   return (
     <div>
@@ -65,7 +82,7 @@ const EditHabitModal = (props) => {
             newHabitDuration: currentHabitDuration,
           }}
           validationSchema={EditHabitSchema}
-          //   onSubmit={handleNewHabit}
+          onSubmit={handleEditHabit}
         >
           {(formik) => (
             <Form className="flex flex-col mx-auto w-full px-10 gap-3">
@@ -122,7 +139,7 @@ const EditHabitModal = (props) => {
               <button
                 type="submit"
                 className="border-2 bg-[#217BF4] text-white w-20 border-none rounded-md py-1 disabled:opacity-[0.5] disabled:cursor-auto"
-                disabled={!formik.isValid || !formik.dirty || isButtonDisabled}
+                disabled={!formik.isValid || isButtonDisabled}
               >
                 Save
               </button>

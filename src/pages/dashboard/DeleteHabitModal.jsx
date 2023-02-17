@@ -10,6 +10,7 @@ const DeleteHabitModal = (props) => {
   const { activeDeleteId, getHabits, deleteModalIsOpen, setDeleteModalIsOpen } =
     props;
   const [isDeleteDisabled, setIsDeleteDisabled] = useState(false);
+
   const deleteHabit = async (activeDeleteId) => {
     setIsDeleteDisabled(true);
     const habitDoc = doc(db, "habits", activeDeleteId);
