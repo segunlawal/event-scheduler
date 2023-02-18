@@ -63,6 +63,7 @@ function Dashboard() {
     setEditModalIsOpen(true);
     setactiveEditId(id);
   }
+  console.log(habits);
 
   const eachHabit = habits?.map((habit) => {
     return (

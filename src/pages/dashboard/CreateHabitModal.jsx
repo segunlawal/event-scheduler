@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Modal from "react-modal";
 import PropTypes from "prop-types";
-import { db } from "../../firebase-config";
+import { db, auth } from "../../firebase-config";
 import { collection, addDoc } from "firebase/firestore";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -31,6 +31,7 @@ const CreateHabitModal = (props) => {
         habitName: newHabitName,
         habitDescription: newHabitDesc,
         numberOfDays: newHabitDuration,
+        userId: auth?.currentUser?.uid,
       });
       toast.success("Habit created", { autoClose: 2000 });
       getHabits();

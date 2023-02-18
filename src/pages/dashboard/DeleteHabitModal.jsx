@@ -13,12 +13,16 @@ const DeleteHabitModal = (props) => {
 
   const deleteHabit = async (activeDeleteId) => {
     setIsDeleteDisabled(true);
-    const habitDoc = doc(db, "habits", activeDeleteId);
-    await deleteDoc(habitDoc);
-    toast("Habit deleted", { autoClose: 2000 });
-    getHabits();
-    setDeleteModalIsOpen(false);
-    setIsDeleteDisabled(false);
+    try {
+      const habitDoc = doc(db, "habits", activeDeleteId);
+      await deleteDoc(habitDoc);
+      toast("Habit deleted", { autoClose: 2000 });
+      getHabits();
+      setDeleteModalIsOpen(false);
+      setIsDeleteDisabled(false);
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   return (
