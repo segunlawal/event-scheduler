@@ -13,6 +13,7 @@ import { IoMdArrowDropdown } from "react-icons/io";
 import CreateHabitModal from "./CreateHabitModal";
 import ModifyHabitModal from "./DeleteHabitModal";
 import EditHabitModal from "./EditHabitModal";
+import Tracker from "./Tracker";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -152,6 +153,7 @@ function Dashboard() {
           </button>
           <p className="text-2xl">A list of my habits</p>
           {eachHabit}
+          <Tracker />
         </div>
       )}
     </div>
