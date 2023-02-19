@@ -25,19 +25,23 @@ function Dashboard() {
   const [activeDeleteId, setactiveDeleteId] = useState("");
   const [activeEditId, setactiveEditId] = useState("");
 
-  const habitsRef = collection(db, "habits");
   const getHabits = async () => {
-    const data = await getDocs(habitsRef);
-    const filteredData = data.docs.map((doc) => ({
-      ...doc.data(),
-      id: doc.id,
-    }));
     try {
-      setHabits(filteredData);
+      const habitsRef = collection(db, "habits");
+      const data = await getDocs(habitsRef);
+      const filteredData = data?.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      const filteredHabits = filteredData.filter(
+        (habit) => habit.userId === auth?.currentUser?.uid
+      );
+      setHabits(filteredHabits);
     } catch (error) {
       toast.error(error.message);
     }
   };
+  // console.log(habits);
 
   useEffect(() => {
     getHabits();
@@ -63,7 +67,6 @@ function Dashboard() {
     setEditModalIsOpen(true);
     setactiveEditId(id);
   }
-  console.log(habits);
 
   const eachHabit = habits?.map((habit) => {
     return (

@@ -36,9 +36,9 @@ const CreateHabitModal = (props) => {
       toast.success("Habit created", { autoClose: 2000 });
       getHabits();
       setModalIsOpen(false);
-      setIsButtonDisabled(false);
     } catch (error) {
       toast.error(error.message);
+      setIsButtonDisabled(false);
     }
   };
   return (

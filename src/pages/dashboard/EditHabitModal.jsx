@@ -54,6 +54,7 @@ const EditHabitModal = (props) => {
       setIsButtonDisabled(false);
     } catch (error) {
       toast.error(error.message);
+      setIsButtonDisabled(false);
     }
   };
 

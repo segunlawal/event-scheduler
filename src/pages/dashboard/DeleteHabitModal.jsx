@@ -22,6 +22,7 @@ const DeleteHabitModal = (props) => {
       setIsDeleteDisabled(false);
     } catch (error) {
       toast.error(error.message);
+      setIsDeleteDisabled(false);
     }
   };
 
