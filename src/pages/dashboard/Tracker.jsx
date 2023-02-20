@@ -1,7 +1,9 @@
-import React from "react";
-
 const Tracker = () => {
-  return <div>Tracker</div>;
+  return (
+    <div className="mx-auto w-[50%]">
+      <p>Calendar</p>
+    </div>
+  );
 };
 
 export default Tracker;
