@@ -1,9 +1,9 @@
-const Tracker = () => {
+function Tracker() {
   return (
-    <div className="mx-auto w-[50%]">
-      <p>Calendar</p>
+    <div className="App">
+      <h1>To-do</h1>
     </div>
   );
-};
+}
 
 export default Tracker;
