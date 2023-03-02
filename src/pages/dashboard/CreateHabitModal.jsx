@@ -16,12 +16,16 @@ const CreateHabitSchema = Yup.object().shape({
   newHabitDuration: Yup.number()
     .required("Duration is required")
     .positive("Duration must be more than zero"),
+  newStartDate: Yup.date().required("Start date is required"),
 });
 
 const CreateHabitModal = (props) => {
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [startDate, setStartDate] = useState();
   const { getHabits, modalIsOpen, setModalIsOpen } = props;
   const habitsRef = collection(db, "habits");
+
+  console.log("startDate is", startDate);
 
   const handleNewHabit = async (values) => {
     const { newHabitName, newHabitDesc, newHabitDuration } = values;
@@ -116,6 +120,20 @@ const CreateHabitModal = (props) => {
                 />
                 <ErrorMessage
                   name="newHabitDuration"
+                  component="div"
+                  className="text-red-700"
+                />
+              </div>
+              <div className="flex flex-col">
+                <label>Start Date</label>
+                <Field
+                  name="newStartDate"
+                  type="date"
+                  onChange={(event) => setStartDate(event.target.value)}
+                  className="border-[1px] border-[#2b2b39] p-2 rounded-sm"
+                />
+                <ErrorMessage
+                  name="newStartDate"
                   component="div"
                   className="text-red-700"
                 />

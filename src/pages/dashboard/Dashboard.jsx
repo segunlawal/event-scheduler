@@ -153,7 +153,7 @@ function Dashboard() {
           </button>
           <p className="text-2xl">A list of my habits</p>
           {eachHabit}
-          <Tracker />
+          <Tracker setModalIsOpen={setModalIsOpen} />
         </div>
       )}
     </div>
