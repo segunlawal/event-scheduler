@@ -8,33 +8,34 @@ import "react-toastify/dist/ReactToastify.css";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { AiOutlineClose } from "react-icons/ai";
+import moment from "moment";
 
 const CreateHabitSchema = Yup.object().shape({
   newHabitName: Yup.string()
     .required("Habit name is required")
     .min(1, "Habit name must have at least one character"),
-  newHabitDuration: Yup.number()
-    .required("Duration is required")
-    .positive("Duration must be more than zero"),
+
   newStartDate: Yup.date().required("Start date is required"),
+  newEndDate: Yup.date().required("End date is required"),
 });
 
 const CreateHabitModal = (props) => {
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-  const [startDate, setStartDate] = useState();
+  const currentDate = moment().format("YYYY-MM-DD");
   const { getHabits, modalIsOpen, setModalIsOpen } = props;
   const habitsRef = collection(db, "habits");
-
-  console.log("startDate is", startDate);
+  const [startDate, setStartDate] = useState(currentDate);
+  const [endDate, setEndDate] = useState(currentDate);
 
   const handleNewHabit = async (values) => {
-    const { newHabitName, newHabitDesc, newHabitDuration } = values;
+    const { newHabitName, newHabitDesc, newStartDate, newEndDate } = values;
     setIsButtonDisabled(true);
     try {
       await addDoc(habitsRef, {
         habitName: newHabitName,
         habitDescription: newHabitDesc,
-        numberOfDays: newHabitDuration,
+        startDate: newStartDate,
+        endDate: newEndDate,
         userId: auth?.currentUser?.uid,
       });
       toast.success("Habit created", { autoClose: 2000 });
@@ -67,7 +68,8 @@ const CreateHabitModal = (props) => {
           initialValues={{
             newHabitName: "",
             newHabitDesc: "",
-            newHabitDuration: 0,
+            newStartDate: currentDate,
+            newEndDate: currentDate,
           }}
           validationSchema={CreateHabitSchema}
           onSubmit={handleNewHabit}
@@ -97,7 +99,7 @@ const CreateHabitModal = (props) => {
                 />
               </div>
               <div className="flex flex-col">
-                <label>Habit Description</label>
+                <label>Habit Description (optional)</label>
                 <Field
                   as="textarea"
                   name="newHabitDesc"
@@ -111,24 +113,11 @@ const CreateHabitModal = (props) => {
                 />
               </div>
               <div className="flex flex-col">
-                <label>Duration (in days)</label>
-                <Field
-                  type="number"
-                  name="newHabitDuration"
-                  className="border-[1px] border-[#2b2b39] p-2 rounded-sm"
-                  placeholder="Enter timeline in days"
-                />
-                <ErrorMessage
-                  name="newHabitDuration"
-                  component="div"
-                  className="text-red-700"
-                />
-              </div>
-              <div className="flex flex-col">
                 <label>Start Date</label>
                 <Field
                   name="newStartDate"
                   type="date"
+                  value={startDate}
                   onChange={(event) => setStartDate(event.target.value)}
                   className="border-[1px] border-[#2b2b39] p-2 rounded-sm"
                 />
@@ -138,6 +127,22 @@ const CreateHabitModal = (props) => {
                   className="text-red-700"
                 />
               </div>
+              <div className="flex flex-col">
+                <label>End Date</label>
+                <Field
+                  name="newEndDate"
+                  type="date"
+                  value={endDate}
+                  onChange={(event) => setEndDate(event.target.value)}
+                  className="border-[1px] border-[#2b2b39] p-2 rounded-sm"
+                />
+                <ErrorMessage
+                  name="newEndDate"
+                  component="div"
+                  className="text-red-700"
+                />
+              </div>
+
               <button
                 type="submit"
                 className="border-2 bg-[#217BF4] text-white w-20 border-none rounded-md py-1 disabled:opacity-[0.5] disabled:cursor-auto"
