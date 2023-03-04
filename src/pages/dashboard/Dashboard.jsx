@@ -42,7 +42,6 @@ function Dashboard() {
       toast.error(error.message);
     }
   };
-  // console.log(habits);
 
   useEffect(() => {
     getHabits();
@@ -145,15 +144,9 @@ function Dashboard() {
               )}
             </div>
           </div>
-          <button
-            className="rounded-md text-white bg-[#217BF4] p-2 mx-auto flex"
-            onClick={() => setModalIsOpen(true)}
-          >
-            Add a new habit
-          </button>
-          <p className="text-2xl">A list of my habits</p>
+          <p className="text-2xl">A list of my events</p>
           {eachHabit}
-          <Tracker setModalIsOpen={setModalIsOpen} />
+          <Tracker setModalIsOpen={setModalIsOpen} habits={habits} />
         </div>
       )}
     </div>

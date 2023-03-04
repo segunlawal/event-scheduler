@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Modal from "react-modal";
 import PropTypes from "prop-types";
 import { ToastContainer, toast } from "react-toastify";
@@ -13,9 +13,8 @@ const EditHabitSchema = Yup.object().shape({
   newHabitName: Yup.string()
     .required("Habit name is required")
     .min(1, "Habit name must have at least one character"),
-  newHabitDuration: Yup.number()
-    .required("Duration is required")
-    .positive("Duration must be more than zero"),
+  newStartDate: Yup.date().required("Start date is required"),
+  newEndDate: Yup.date().required("Start date is required"),
 });
 
 const EditHabitModal = (props) => {
@@ -26,7 +25,6 @@ const EditHabitModal = (props) => {
     editModalIsOpen,
     setEditModalIsOpen,
   } = props;
-  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   const currentHabitName = habits?.find(
     (habit) => habit.id === activeEditId
@@ -34,19 +32,36 @@ const EditHabitModal = (props) => {
   const currentHabitDesc = habits?.find(
     (habit) => habit.id === activeEditId
   )?.habitDescription;
-  const currentHabitDuration = habits?.find(
+  // eslint-disable-next-line no-unused-vars
+  const currentStartDate = habits?.find(
     (habit) => habit.id === activeEditId
-  )?.numberOfDays;
+  )?.startDate;
+  const currentEndDate = habits?.find(
+    (habit) => habit.id === activeEditId
+  )?.endDate;
+
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [startDate, setStartDate] = useState(currentStartDate);
+  const [endDate, setEndDate] = useState(currentEndDate);
+
+  useEffect(() => {
+    setStartDate(currentStartDate);
+  }, [currentStartDate]);
+
+  useEffect(() => {
+    setEndDate(currentEndDate);
+  }, [currentEndDate]);
 
   const handleEditHabit = async (values) => {
-    const { newHabitName, newHabitDesc, newHabitDuration } = values;
+    const { newHabitName, newHabitDesc } = values;
     setIsButtonDisabled(true);
     try {
       const habitDoc = doc(db, "habits", activeEditId);
       await updateDoc(habitDoc, {
         habitName: newHabitName,
         habitDescription: newHabitDesc,
-        numberOfDays: newHabitDuration,
+        startDate,
+        endDate,
       });
       toast.success("Habit updated", { autoClose: 2000 });
       getHabits();
@@ -80,7 +95,8 @@ const EditHabitModal = (props) => {
           initialValues={{
             newHabitName: currentHabitName,
             newHabitDesc: currentHabitDesc,
-            newHabitDuration: currentHabitDuration,
+            newStartDate: currentStartDate,
+            newEndDate: currentEndDate,
           }}
           validationSchema={EditHabitSchema}
           onSubmit={handleEditHabit}
@@ -124,15 +140,31 @@ const EditHabitModal = (props) => {
                 />
               </div>
               <div className="flex flex-col">
-                <label>Duration (in days)</label>
+                <label>Start Date</label>
                 <Field
-                  type="number"
-                  name="newHabitDuration"
+                  name="newStartDate"
+                  type="date"
+                  value={startDate ?? ""}
+                  onChange={(event) => setStartDate(event.target.value)}
                   className="border-[1px] border-[#2b2b39] p-2 rounded-sm"
-                  placeholder="Enter timeline in days"
                 />
                 <ErrorMessage
-                  name="newHabitDuration"
+                  name="newStartDate"
+                  component="div"
+                  className="text-red-700"
+                />
+              </div>
+              <div className="flex flex-col">
+                <label>End Date</label>
+                <Field
+                  name="newEndDate"
+                  type="date"
+                  value={endDate ?? ""}
+                  onChange={(event) => setEndDate(event.target.value)}
+                  className="border-[1px] border-[#2b2b39] p-2 rounded-sm"
+                />
+                <ErrorMessage
+                  name="newEndDate"
                   component="div"
                   className="text-red-700"
                 />

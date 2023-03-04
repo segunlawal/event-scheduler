@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import { useState } from "react";
 import Modal from "react-modal";
 import PropTypes from "prop-types";
@@ -14,9 +15,8 @@ const CreateHabitSchema = Yup.object().shape({
   newHabitName: Yup.string()
     .required("Habit name is required")
     .min(1, "Habit name must have at least one character"),
-
   newStartDate: Yup.date().required("Start date is required"),
-  newEndDate: Yup.date().required("End date is required"),
+  newEndDate: Yup.date().required("Start date is required"),
 });
 
 const CreateHabitModal = (props) => {
@@ -29,6 +29,7 @@ const CreateHabitModal = (props) => {
 
   const handleNewHabit = async (values) => {
     const { newHabitName, newHabitDesc, newStartDate, newEndDate } = values;
+
     setIsButtonDisabled(true);
     try {
       await addDoc(habitsRef, {
@@ -41,6 +42,7 @@ const CreateHabitModal = (props) => {
       toast.success("Habit created", { autoClose: 2000 });
       getHabits();
       setModalIsOpen(false);
+      setIsButtonDisabled(false);
     } catch (error) {
       toast.error(error.message);
       setIsButtonDisabled(false);
@@ -68,8 +70,8 @@ const CreateHabitModal = (props) => {
           initialValues={{
             newHabitName: "",
             newHabitDesc: "",
-            newStartDate: currentDate,
-            newEndDate: currentDate,
+            newStartDate: startDate,
+            newEndDate: endDate,
           }}
           validationSchema={CreateHabitSchema}
           onSubmit={handleNewHabit}
