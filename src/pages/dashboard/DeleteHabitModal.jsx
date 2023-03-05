@@ -35,6 +35,7 @@ const DeleteHabitModal = (props) => {
             position: "fixed",
             background: "rgba(24, 49, 64, 0.23)",
             backdropFilter: 'blur("91px")',
+            zIndex: 1,
           },
         }}
         isOpen={deleteModalIsOpen}

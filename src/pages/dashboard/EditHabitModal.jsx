@@ -13,8 +13,6 @@ const EditHabitSchema = Yup.object().shape({
   newHabitName: Yup.string()
     .required("Habit name is required")
     .min(1, "Habit name must have at least one character"),
-  newStartDate: Yup.date().required("Start date is required"),
-  newEndDate: Yup.date().required("Start date is required"),
 });
 
 const EditHabitModal = (props) => {
@@ -32,7 +30,6 @@ const EditHabitModal = (props) => {
   const currentHabitDesc = habits?.find(
     (habit) => habit.id === activeEditId
   )?.habitDescription;
-  // eslint-disable-next-line no-unused-vars
   const currentStartDate = habits?.find(
     (habit) => habit.id === activeEditId
   )?.startDate;
@@ -44,6 +41,13 @@ const EditHabitModal = (props) => {
   const [startDate, setStartDate] = useState(currentStartDate);
   const [endDate, setEndDate] = useState(currentEndDate);
 
+  useEffect(() => {
+    if (endDate < startDate) {
+      setIsButtonDisabled(true);
+    } else {
+      setIsButtonDisabled(false);
+    }
+  }, [startDate, endDate]);
   useEffect(() => {
     setStartDate(currentStartDate);
   }, [currentStartDate]);
@@ -82,6 +86,7 @@ const EditHabitModal = (props) => {
             position: "fixed",
             background: "rgba(24, 49, 64, 0.23)",
             backdropFilter: 'blur("91px")',
+            zIndex: 1,
           },
         }}
         isOpen={editModalIsOpen}
@@ -133,11 +138,6 @@ const EditHabitModal = (props) => {
                   className="border-[1px] border-[#2b2b39] p-2 rounded-sm"
                   placeholder="Briefly describe habit"
                 />
-                <ErrorMessage
-                  name="newHabitDesc"
-                  component="div"
-                  className="text-red-700"
-                />
               </div>
               <div className="flex flex-col">
                 <label>Start Date</label>
@@ -147,11 +147,6 @@ const EditHabitModal = (props) => {
                   value={startDate ?? ""}
                   onChange={(event) => setStartDate(event.target.value)}
                   className="border-[1px] border-[#2b2b39] p-2 rounded-sm"
-                />
-                <ErrorMessage
-                  name="newStartDate"
-                  component="div"
-                  className="text-red-700"
                 />
               </div>
               <div className="flex flex-col">
@@ -163,11 +158,11 @@ const EditHabitModal = (props) => {
                   onChange={(event) => setEndDate(event.target.value)}
                   className="border-[1px] border-[#2b2b39] p-2 rounded-sm"
                 />
-                <ErrorMessage
-                  name="newEndDate"
-                  component="div"
-                  className="text-red-700"
-                />
+                {endDate < startDate && (
+                  <p className="text-red-700">
+                    End Date cannot be before start date
+                  </p>
+                )}
               </div>
               <button
                 type="submit"

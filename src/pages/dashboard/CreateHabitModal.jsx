@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Modal from "react-modal";
 import PropTypes from "prop-types";
 import { db, auth } from "../../firebase-config";
@@ -15,8 +15,6 @@ const CreateHabitSchema = Yup.object().shape({
   newHabitName: Yup.string()
     .required("Habit name is required")
     .min(1, "Habit name must have at least one character"),
-  newStartDate: Yup.date().required("Start date is required"),
-  newEndDate: Yup.date().required("Start date is required"),
 });
 
 const CreateHabitModal = (props) => {
@@ -27,16 +25,32 @@ const CreateHabitModal = (props) => {
   const [startDate, setStartDate] = useState(currentDate);
   const [endDate, setEndDate] = useState(currentDate);
 
+  useEffect(() => {
+    if (endDate < startDate) {
+      setIsButtonDisabled(true);
+    } else {
+      setIsButtonDisabled(false);
+    }
+  }, [startDate, endDate]);
+
+  useEffect(() => {
+    setStartDate(currentDate);
+  }, [currentDate]);
+
+  useEffect(() => {
+    setEndDate(currentDate);
+  }, [currentDate]);
+
   const handleNewHabit = async (values) => {
-    const { newHabitName, newHabitDesc, newStartDate, newEndDate } = values;
+    const { newHabitName, newHabitDesc } = values;
 
     setIsButtonDisabled(true);
     try {
       await addDoc(habitsRef, {
         habitName: newHabitName,
         habitDescription: newHabitDesc,
-        startDate: newStartDate,
-        endDate: newEndDate,
+        startDate,
+        endDate,
         userId: auth?.currentUser?.uid,
       });
       toast.success("Habit created", { autoClose: 2000 });
@@ -57,6 +71,7 @@ const CreateHabitModal = (props) => {
             position: "fixed",
             background: "rgba(24, 49, 64, 0.63)",
             backdropFilter: 'blur("91px")',
+            zIndex: 1,
           },
         }}
         isOpen={modalIsOpen}
@@ -108,11 +123,6 @@ const CreateHabitModal = (props) => {
                   className="border-[1px] border-[#2b2b39] p-2 rounded-sm"
                   placeholder="Briefly describe habit"
                 />
-                <ErrorMessage
-                  name="newHabitDesc"
-                  component="div"
-                  className="text-red-700"
-                />
               </div>
               <div className="flex flex-col">
                 <label>Start Date</label>
@@ -122,11 +132,6 @@ const CreateHabitModal = (props) => {
                   value={startDate}
                   onChange={(event) => setStartDate(event.target.value)}
                   className="border-[1px] border-[#2b2b39] p-2 rounded-sm"
-                />
-                <ErrorMessage
-                  name="newStartDate"
-                  component="div"
-                  className="text-red-700"
                 />
               </div>
               <div className="flex flex-col">
@@ -138,11 +143,11 @@ const CreateHabitModal = (props) => {
                   onChange={(event) => setEndDate(event.target.value)}
                   className="border-[1px] border-[#2b2b39] p-2 rounded-sm"
                 />
-                <ErrorMessage
-                  name="newEndDate"
-                  component="div"
-                  className="text-red-700"
-                />
+                {endDate < startDate && (
+                  <p className="text-red-700">
+                    End Date cannot be before start date
+                  </p>
+                )}
               </div>
 
               <button
