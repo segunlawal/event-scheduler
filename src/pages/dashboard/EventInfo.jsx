@@ -1,4 +1,5 @@
-// import { useState } from "react";
+/* eslint-disable no-unused-vars */
+import { useState } from "react";
 import Modal from "react-modal";
 import PropTypes from "prop-types";
 import { ToastContainer } from "react-toastify";
@@ -14,8 +15,19 @@ const EventInfo = (props) => {
     clickedEvent,
     clickedEventStartDate,
     clickedEventEndDate,
+    setEditModalIsOpen,
+    setDeleteModalIsOpen,
+    activeId,
+    setActiveId,
   } = props;
-
+  function handleEditModal(id) {
+    setActiveId(id);
+    setEditModalIsOpen(true);
+  }
+  function handleDeleteModal(id) {
+    setActiveId(id);
+    setDeleteModalIsOpen(true);
+  }
   return (
     <div>
       <ToastContainer />
@@ -36,8 +48,20 @@ const EventInfo = (props) => {
         }}
       >
         <div className="flex justify-end text-xl gap-3">
-          <AiOutlineEdit className="cursor-pointer" />
-          <AiOutlineDelete className="cursor-pointer" />
+          <AiOutlineEdit
+            className="cursor-pointer"
+            onClick={() => {
+              handleEditModal(activeId);
+              setInfoModalIsOpen(false);
+            }}
+          />
+          <AiOutlineDelete
+            className="cursor-pointer"
+            onClick={() => {
+              handleDeleteModal(activeId);
+              setInfoModalIsOpen(false);
+            }}
+          />
           <AiOutlineClose
             className="cursor-pointer"
             onClick={() => {
@@ -56,7 +80,11 @@ const EventInfo = (props) => {
 EventInfo.propTypes = {
   infoModalIsOpen: PropTypes.bool.isRequired,
   setInfoModalIsOpen: PropTypes.func.isRequired,
+  setDeleteModalIsOpen: PropTypes.func.isRequired,
+  setEditModalIsOpen: PropTypes.func.isRequired,
+  setActiveId: PropTypes.func.isRequired,
   clickedEvent: PropTypes.string.isRequired,
+  activeId: PropTypes.string.isRequired,
   clickedEventStartDate: PropTypes.string.isRequired,
   clickedEventEndDate: PropTypes.string.isRequired,
 };

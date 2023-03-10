@@ -8,7 +8,6 @@ import ClipLoader from "react-spinners/ClipLoader";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import logo from "../../assets/habitter.png";
-import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { IoMdArrowDropdown } from "react-icons/io";
 import CreateHabitModal from "./CreateHabitModal";
 import ModifyHabitModal from "./DeleteHabitModal";
@@ -24,8 +23,7 @@ function Dashboard() {
   const [editModalIsOpen, setEditModalIsOpen] = useState(false);
   const [infoModalIsOpen, setInfoModalIsOpen] = useState(false);
   const [showDropDown, setShowDropDown] = useState(false);
-  const [activeDeleteId, setactiveDeleteId] = useState("");
-  const [activeEditId, setactiveEditId] = useState("");
+  const [activeId, setActiveId] = useState("");
 
   const getHabits = async () => {
     try {
@@ -60,15 +58,6 @@ function Dashboard() {
     navigate("/");
   };
 
-  function handleDeleteModal(id) {
-    setDeleteModalIsOpen(true);
-    setactiveDeleteId(id);
-  }
-  function handleEditModal(id) {
-    setEditModalIsOpen(true);
-    setactiveEditId(id);
-  }
-
   const eachHabit = habits?.map((habit) => {
     return (
       <div key={habit.id}>
@@ -76,27 +65,15 @@ function Dashboard() {
           getHabits={getHabits}
           deleteModalIsOpen={deleteModalIsOpen}
           setDeleteModalIsOpen={setDeleteModalIsOpen}
-          activeDeleteId={activeDeleteId}
+          activeId={activeId}
         />
         <EditHabitModal
           getHabits={getHabits}
           editModalIsOpen={editModalIsOpen}
           setEditModalIsOpen={setEditModalIsOpen}
-          activeEditId={activeEditId}
+          activeId={activeId}
           habits={habits}
         />
-        <p>{habit.habitName}</p>
-        <div className="flex gap-2">
-          <AiOutlineDelete
-            className="text-xl cursor-pointer fill-red-700"
-            onClick={() => handleDeleteModal(habit.id)}
-          />
-          <AiOutlineEdit
-            className="text-xl cursor-pointer fill-[#ffaf2e]"
-            onClick={() => handleEditModal(habit.id)}
-          />
-        </div>
-        <hr />
       </div>
     );
   });
@@ -145,14 +122,17 @@ function Dashboard() {
               )}
             </div>
           </div>
-          <p className="text-2xl">A list of my events</p>
-          {eachHabit}
           <Tracker
             setModalIsOpen={setModalIsOpen}
             habits={habits}
             infoModalIsOpen={infoModalIsOpen}
             setInfoModalIsOpen={setInfoModalIsOpen}
+            setEditModalIsOpen={setEditModalIsOpen}
+            setDeleteModalIsOpen={setDeleteModalIsOpen}
+            activeId={activeId}
+            setActiveId={setActiveId}
           />
+          {eachHabit}
         </div>
       )}
     </div>

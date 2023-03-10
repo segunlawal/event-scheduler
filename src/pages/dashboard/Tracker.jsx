@@ -10,7 +10,16 @@ import "react-toastify/dist/ReactToastify.css";
 import EventInfo from "./EventInfo";
 
 function Tracker(props) {
-  const { setModalIsOpen, habits, infoModalIsOpen, setInfoModalIsOpen } = props;
+  const {
+    setModalIsOpen,
+    habits,
+    infoModalIsOpen,
+    setInfoModalIsOpen,
+    setEditModalIsOpen,
+    setDeleteModalIsOpen,
+    activeId,
+    setActiveId,
+  } = props;
 
   const [calendarEvents, setCalendarEvents] = useState([]);
   const [clickedEvent, setClickedEvent] = useState("");
@@ -67,6 +76,7 @@ function Tracker(props) {
     clickedEndDate.setDate(clickedEndDate.getDate() - 1);
     const newClickedEndDate = clickedEndDate.toISOString().slice(0, 10);
     setClickedEventEndDate(newClickedEndDate);
+    setActiveId(clickInfo.event._def.publicId);
   };
 
   return (
@@ -78,6 +88,10 @@ function Tracker(props) {
         clickedEvent={clickedEvent}
         clickedEventStartDate={clickedEventStartDate}
         clickedEventEndDate={clickedEventEndDate}
+        setEditModalIsOpen={setEditModalIsOpen}
+        setDeleteModalIsOpen={setDeleteModalIsOpen}
+        activeId={activeId}
+        setActiveId={setActiveId}
       />
       <button
         className="rounded-md text-white bg-[#217BF4] p-2 mx-auto flex"
@@ -106,8 +120,12 @@ function Tracker(props) {
 
 Tracker.propTypes = {
   habits: PropTypes.array.isRequired,
+  setDeleteModalIsOpen: PropTypes.func.isRequired,
+  setEditModalIsOpen: PropTypes.func.isRequired,
   setModalIsOpen: PropTypes.func.isRequired,
   infoModalIsOpen: PropTypes.bool.isRequired,
   setInfoModalIsOpen: PropTypes.func.isRequired,
+  activeId: PropTypes.string.isRequired,
+  setActiveId: PropTypes.func.isRequired,
 };
 export default Tracker;

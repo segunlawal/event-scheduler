@@ -7,14 +7,14 @@ import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase-config";
 
 const DeleteHabitModal = (props) => {
-  const { activeDeleteId, getHabits, deleteModalIsOpen, setDeleteModalIsOpen } =
+  const { activeId, getHabits, deleteModalIsOpen, setDeleteModalIsOpen } =
     props;
   const [isDeleteDisabled, setIsDeleteDisabled] = useState(false);
 
-  const deleteHabit = async (activeDeleteId) => {
+  const deleteHabit = async (activeId) => {
     setIsDeleteDisabled(true);
     try {
-      const habitDoc = doc(db, "habits", activeDeleteId);
+      const habitDoc = doc(db, "habits", activeId);
       await deleteDoc(habitDoc);
       toast("Habit deleted", { autoClose: 2000 });
       getHabits();
@@ -49,7 +49,7 @@ const DeleteHabitModal = (props) => {
         <div className=" flex gap-3">
           <button
             disabled={isDeleteDisabled}
-            onClick={() => deleteHabit(activeDeleteId)}
+            onClick={() => deleteHabit(activeId)}
             className="bg-red-700 text-white px-3 py-2 rounded-md disabled:opacity-[0.5]"
           >
             Delete
@@ -70,7 +70,7 @@ DeleteHabitModal.propTypes = {
   getHabits: PropTypes.func.isRequired,
   deleteModalIsOpen: PropTypes.bool.isRequired,
   setDeleteModalIsOpen: PropTypes.func.isRequired,
-  activeDeleteId: PropTypes.string.isRequired,
+  activeId: PropTypes.string.isRequired,
 };
 
 export default DeleteHabitModal;

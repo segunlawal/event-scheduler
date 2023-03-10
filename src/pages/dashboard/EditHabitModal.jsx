@@ -16,25 +16,20 @@ const EditHabitSchema = Yup.object().shape({
 });
 
 const EditHabitModal = (props) => {
-  const {
-    activeEditId,
-    getHabits,
-    habits,
-    editModalIsOpen,
-    setEditModalIsOpen,
-  } = props;
+  const { activeId, getHabits, habits, editModalIsOpen, setEditModalIsOpen } =
+    props;
 
   const currentHabitName = habits?.find(
-    (habit) => habit.id === activeEditId
+    (habit) => habit.id === activeId
   )?.habitName;
   const currentHabitDesc = habits?.find(
-    (habit) => habit.id === activeEditId
+    (habit) => habit.id === activeId
   )?.habitDescription;
   const currentStartDate = habits?.find(
-    (habit) => habit.id === activeEditId
+    (habit) => habit.id === activeId
   )?.startDate;
   const currentEndDate = habits?.find(
-    (habit) => habit.id === activeEditId
+    (habit) => habit.id === activeId
   )?.endDate;
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
@@ -60,7 +55,7 @@ const EditHabitModal = (props) => {
     const { newHabitName, newHabitDesc } = values;
     setIsButtonDisabled(true);
     try {
-      const habitDoc = doc(db, "habits", activeEditId);
+      const habitDoc = doc(db, "habits", activeId);
       await updateDoc(habitDoc, {
         habitName: newHabitName,
         habitDescription: newHabitDesc,
@@ -183,7 +178,7 @@ EditHabitModal.propTypes = {
   getHabits: PropTypes.func.isRequired,
   editModalIsOpen: PropTypes.bool.isRequired,
   setEditModalIsOpen: PropTypes.func.isRequired,
-  activeEditId: PropTypes.string.isRequired,
+  activeId: PropTypes.string.isRequired,
   habits: PropTypes.array.isRequired,
 };
 
