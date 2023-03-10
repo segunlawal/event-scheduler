@@ -22,6 +22,7 @@ function Dashboard() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [deleteModalIsOpen, setDeleteModalIsOpen] = useState(false);
   const [editModalIsOpen, setEditModalIsOpen] = useState(false);
+  const [infoModalIsOpen, setInfoModalIsOpen] = useState(false);
   const [showDropDown, setShowDropDown] = useState(false);
   const [activeDeleteId, setactiveDeleteId] = useState("");
   const [activeEditId, setactiveEditId] = useState("");
@@ -146,7 +147,12 @@ function Dashboard() {
           </div>
           <p className="text-2xl">A list of my events</p>
           {eachHabit}
-          <Tracker setModalIsOpen={setModalIsOpen} habits={habits} />
+          <Tracker
+            setModalIsOpen={setModalIsOpen}
+            habits={habits}
+            infoModalIsOpen={infoModalIsOpen}
+            setInfoModalIsOpen={setInfoModalIsOpen}
+          />
         </div>
       )}
     </div>

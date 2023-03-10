@@ -7,11 +7,15 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase-config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import EventInfo from "./EventInfo";
 
 function Tracker(props) {
-  const { setModalIsOpen, habits } = props;
+  const { setModalIsOpen, habits, infoModalIsOpen, setInfoModalIsOpen } = props;
 
   const [calendarEvents, setCalendarEvents] = useState([]);
+  const [clickedEvent, setClickedEvent] = useState("");
+  const [clickedEventStartDate, setClickedEventStartDate] = useState("");
+  const [clickedEventEndDate, setClickedEventEndDate] = useState("");
 
   useEffect(() => {
     if (habits) {
@@ -53,12 +57,28 @@ function Tracker(props) {
   };
 
   const handleEventClick = async (clickInfo) => {
-    console.log(clickInfo);
+    setClickedEvent(clickInfo.event._def.title);
+    setInfoModalIsOpen(true);
+    setClickedEventStartDate(
+      clickInfo.event._instance.range.start.toISOString().slice(0, 10)
+    );
+
+    const clickedEndDate = new Date(clickInfo.event._instance.range.end);
+    clickedEndDate.setDate(clickedEndDate.getDate() - 1);
+    const newClickedEndDate = clickedEndDate.toISOString().slice(0, 10);
+    setClickedEventEndDate(newClickedEndDate);
   };
 
   return (
     <div className="mt-[3rem]">
       <ToastContainer />
+      <EventInfo
+        infoModalIsOpen={infoModalIsOpen}
+        setInfoModalIsOpen={setInfoModalIsOpen}
+        clickedEvent={clickedEvent}
+        clickedEventStartDate={clickedEventStartDate}
+        clickedEventEndDate={clickedEventEndDate}
+      />
       <button
         className="rounded-md text-white bg-[#217BF4] p-2 mx-auto flex"
         onClick={() => setModalIsOpen(true)}
@@ -86,7 +106,8 @@ function Tracker(props) {
 
 Tracker.propTypes = {
   habits: PropTypes.array.isRequired,
-  // modalIsOpen: PropTypes.bool.isRequired,
   setModalIsOpen: PropTypes.func.isRequired,
+  infoModalIsOpen: PropTypes.bool.isRequired,
+  setInfoModalIsOpen: PropTypes.func.isRequired,
 };
 export default Tracker;
