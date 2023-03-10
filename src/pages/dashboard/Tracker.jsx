@@ -8,6 +8,7 @@ import { db } from "../../firebase-config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import EventInfo from "./EventInfo";
+import moment from "moment";
 
 function Tracker(props) {
   const {
@@ -19,12 +20,15 @@ function Tracker(props) {
     setDeleteModalIsOpen,
     activeId,
     setActiveId,
+    setStartDate,
+    setEndDate,
   } = props;
 
   const [calendarEvents, setCalendarEvents] = useState([]);
   const [clickedEvent, setClickedEvent] = useState("");
   const [clickedEventStartDate, setClickedEventStartDate] = useState("");
   const [clickedEventEndDate, setClickedEventEndDate] = useState("");
+  const currentDate = moment().format("YYYY-MM-DD");
 
   useEffect(() => {
     if (habits) {
@@ -79,6 +83,11 @@ function Tracker(props) {
     setActiveId(clickInfo.event._def.publicId);
   };
 
+  const handleDateSelect = async (clickInfo) => {
+    setModalIsOpen(true);
+    setStartDate(clickInfo.startStr);
+    setEndDate(clickInfo.startStr);
+  };
   return (
     <div className="mt-[3rem]">
       <ToastContainer />
@@ -95,7 +104,11 @@ function Tracker(props) {
       />
       <button
         className="rounded-md text-white bg-[#217BF4] p-2 mx-auto flex"
-        onClick={() => setModalIsOpen(true)}
+        onClick={() => {
+          setModalIsOpen(true);
+          setStartDate(currentDate);
+          setEndDate(currentDate);
+        }}
       >
         Add a new event
       </button>
@@ -113,6 +126,7 @@ function Tracker(props) {
         selectable={true}
         eventChange={handleEventChange}
         eventClick={handleEventClick}
+        select={handleDateSelect}
       />
     </div>
   );
@@ -127,5 +141,7 @@ Tracker.propTypes = {
   setInfoModalIsOpen: PropTypes.func.isRequired,
   activeId: PropTypes.string.isRequired,
   setActiveId: PropTypes.func.isRequired,
+  setStartDate: PropTypes.func.isRequired,
+  setEndDate: PropTypes.func.isRequired,
 };
 export default Tracker;

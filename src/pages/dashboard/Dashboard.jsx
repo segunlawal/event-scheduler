@@ -13,6 +13,7 @@ import CreateHabitModal from "./CreateHabitModal";
 import ModifyHabitModal from "./DeleteHabitModal";
 import EditHabitModal from "./EditHabitModal";
 import Tracker from "./Tracker";
+import moment from "moment";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -24,6 +25,9 @@ function Dashboard() {
   const [infoModalIsOpen, setInfoModalIsOpen] = useState(false);
   const [showDropDown, setShowDropDown] = useState(false);
   const [activeId, setActiveId] = useState("");
+  const currentDate = moment().format("YYYY-MM-DD");
+  const [startDate, setStartDate] = useState(currentDate);
+  const [endDate, setEndDate] = useState(currentDate);
 
   const getHabits = async () => {
     try {
@@ -91,6 +95,10 @@ function Dashboard() {
             getHabits={getHabits}
             modalIsOpen={modalIsOpen}
             setModalIsOpen={setModalIsOpen}
+            startDate={startDate}
+            setStartDate={setStartDate}
+            endDate={endDate}
+            setEndDate={setEndDate}
           />
 
           <div className="p-5 flex justify-between">
@@ -131,6 +139,10 @@ function Dashboard() {
             setDeleteModalIsOpen={setDeleteModalIsOpen}
             activeId={activeId}
             setActiveId={setActiveId}
+            startDate={startDate}
+            setStartDate={setStartDate}
+            endDate={endDate}
+            setEndDate={setEndDate}
           />
           {eachHabit}
         </div>

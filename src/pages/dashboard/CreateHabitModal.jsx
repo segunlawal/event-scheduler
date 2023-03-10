@@ -18,12 +18,11 @@ const CreateHabitSchema = Yup.object().shape({
 });
 
 const CreateHabitModal = (props) => {
+  const { startDate, setStartDate, endDate, setEndDate } = props;
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const currentDate = moment().format("YYYY-MM-DD");
   const { getHabits, modalIsOpen, setModalIsOpen } = props;
   const habitsRef = collection(db, "habits");
-  const [startDate, setStartDate] = useState(currentDate);
-  const [endDate, setEndDate] = useState(currentDate);
 
   useEffect(() => {
     if (endDate < startDate) {
@@ -168,5 +167,9 @@ CreateHabitModal.propTypes = {
   getHabits: PropTypes.func.isRequired,
   modalIsOpen: PropTypes.bool.isRequired,
   setModalIsOpen: PropTypes.func.isRequired,
+  setStartDate: PropTypes.func.isRequired,
+  startDate: PropTypes.string.isRequired,
+  setEndDate: PropTypes.func.isRequired,
+  endDate: PropTypes.string.isRequired,
 };
 export default CreateHabitModal;
