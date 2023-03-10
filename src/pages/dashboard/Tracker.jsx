@@ -9,7 +9,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import EventInfo from "./EventInfo";
 import moment from "moment";
-
+import { AiOutlinePlus } from "react-icons/ai";
+import { StyleWrapper } from "./StyleWrapper";
 function Tracker(props) {
   const {
     setModalIsOpen,
@@ -88,6 +89,7 @@ function Tracker(props) {
     setStartDate(clickInfo.startStr);
     setEndDate(clickInfo.startStr);
   };
+
   return (
     <div className="mt-[3rem]">
       <ToastContainer />
@@ -103,31 +105,33 @@ function Tracker(props) {
         setActiveId={setActiveId}
       />
       <button
-        className="rounded-md text-white bg-[#217BF4] p-2 mx-auto flex"
+        className="fixed top-5 left-5 rounded-full text-white bg-[#217BF4] p-2 flex items-center justify-center"
         onClick={() => {
           setModalIsOpen(true);
           setStartDate(currentDate);
           setEndDate(currentDate);
         }}
       >
-        Add a new event
+        <AiOutlinePlus className="text-2xl" />
       </button>
-      <FullCalendar
-        plugins={[dayGridPlugin, interactionPlugin]}
-        initialView="dayGridMonth"
-        events={calendarEvents}
-        headerToolbar={{
-          start: "today prev,next", // will normally be on the left. if RTL, will be on the right
-          center: "title",
-          end: "dayGridMonth,dayGridWeek,dayGridDay", // will normally be on the right. if RTL, will be on the left
-        }}
-        height={"90vh"}
-        editable={true}
-        selectable={true}
-        eventChange={handleEventChange}
-        eventClick={handleEventClick}
-        select={handleDateSelect}
-      />
+      <StyleWrapper>
+        <FullCalendar
+          plugins={[dayGridPlugin, interactionPlugin]}
+          initialView="dayGridMonth"
+          events={calendarEvents}
+          headerToolbar={{
+            start: "today prev,next", // will normally be on the left. if RTL, will be on the right
+            center: "title",
+            end: "dayGridMonth,dayGridWeek,dayGridDay", // will normally be on the right. if RTL, will be on the left
+          }}
+          height={"90vh"}
+          editable={true}
+          selectable={true}
+          eventChange={handleEventChange}
+          eventClick={handleEventClick}
+          select={handleDateSelect}
+        />
+      </StyleWrapper>
     </div>
   );
 }
