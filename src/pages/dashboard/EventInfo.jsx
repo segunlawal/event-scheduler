@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { AiOutlineDelete, AiOutlineEdit, AiOutlineClose } from "react-icons/ai";
 // import { doc, updateDoc } from "firebase/firestore";
 // import { db } from "../../firebase-config";
+import "../../App.css";
 
 const EventInfo = (props) => {
   const {
@@ -28,6 +29,28 @@ const EventInfo = (props) => {
     setActiveId(id);
     setDeleteModalIsOpen(true);
   }
+
+  const arrDate = clickedEventStartDate.split("-");
+  console.log(arrDate);
+  const months = [
+    "",
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  if (arrDate[1] < 10 && arrDate[1].toString().charAt(0) === "0") {
+    arrDate[1] = parseInt(arrDate[1].toString().charAt(1));
+  }
+  const eventStart = months[arrDate[1]] + " " + arrDate[2] + ", " + arrDate[0];
   return (
     <div>
       <ToastContainer />
@@ -38,6 +61,10 @@ const EventInfo = (props) => {
             background: "rgba(24, 49, 64, 0.1)",
             backdropFilter: 'blur("91px")',
             zIndex: 1,
+          },
+
+          content: {
+            animation: "slide-down 0.5s",
           },
         }}
         isOpen={infoModalIsOpen}
@@ -69,9 +96,10 @@ const EventInfo = (props) => {
             }}
           />
         </div>
-        <p>{clickedEvent}</p>
-        <p>{clickedEventStartDate}</p>
-        <p>{clickedEventEndDate}</p>
+        <p className="text-lg font-semibold leading-tight">{clickedEvent}</p>
+        <p>
+          {eventStart} to {clickedEventEndDate}
+        </p>
       </Modal>
     </div>
   );

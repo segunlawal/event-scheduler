@@ -91,7 +91,7 @@ function Tracker(props) {
   };
 
   return (
-    <div className="mt-[3rem]">
+    <div className="">
       <ToastContainer />
       <EventInfo
         infoModalIsOpen={infoModalIsOpen}
@@ -105,14 +105,14 @@ function Tracker(props) {
         setActiveId={setActiveId}
       />
       <button
-        className="fixed top-5 left-5 rounded-full text-white bg-[#217BF4] p-2 flex items-center justify-center"
+        className="fixed z-10 bottom-5 right-5 rounded-full text-white bg-[#217BF4] p-2 flex items-center justify-center shadow-2xl"
         onClick={() => {
           setModalIsOpen(true);
           setStartDate(currentDate);
           setEndDate(currentDate);
         }}
       >
-        <AiOutlinePlus className="text-2xl" />
+        <AiOutlinePlus className="text-3xl fill-white" />
       </button>
       <StyleWrapper>
         <FullCalendar
@@ -124,7 +124,7 @@ function Tracker(props) {
             center: "title",
             end: "dayGridMonth,dayGridWeek,dayGridDay", // will normally be on the right. if RTL, will be on the left
           }}
-          height={"90vh"}
+          height={"89vh"}
           editable={true}
           selectable={true}
           eventChange={handleEventChange}
