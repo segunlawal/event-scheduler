@@ -1,1 +1,2 @@
-<a href="https://www.freepik.com/free-vector/discipline-abstract-concept-vector-illustration-personal-quality-disciplined-employee-diligence-self-discipline-training-behavior-regulation-obey-rules-control-habit-abstract-metaphor_24122312.htm#query=habit%20illustration&position=0&from_view=search&track=sph">Image by vectorjuice</a> on Freepik
+#Event Scheduler App
+This is an app for creating and keeping track of events on a calendar
