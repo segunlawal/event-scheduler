@@ -37,8 +37,14 @@ export const StyleWrapper = styled.div`
   }
   
 }
+@media (max-width: 767.98px) {
+    .fc .fc-toolbar.fc-header-toolbar {
+        display: block;
+        text-align: center;
+    }
+
+    .fc-header-toolbar .fc-toolbar-chunk {
+        display: block;
+    }
+}
 `;
-// #ffaf2e;
-// .fc-dayGridDay-button.fc-button.fc-button-primary:active{
-//   background: #217bf4;
-// }

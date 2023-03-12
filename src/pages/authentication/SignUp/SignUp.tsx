@@ -33,6 +33,8 @@ function SignUp(): JSX.Element {
   const { oneUser, googleSignIn } = UserAuth();
   const [showPassword, setShowPassword] = useState("password");
   const [showConfirmPassword, setShowConfirmPassword] = useState("password");
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
   const handletoggle = (): void => {
     showPassword === "password"
       ? setShowPassword("text")
@@ -47,17 +49,19 @@ function SignUp(): JSX.Element {
   const signUp = async (values: FormValues): Promise<void> => {
     const { registerEmail, registerPassword } = values;
     try {
+      setIsButtonDisabled(true);
       const user = await createUserWithEmailAndPassword(
         auth,
         registerEmail,
         registerPassword
       );
-      toast.success("Account created successfully");
+      setIsButtonDisabled(false);
       setTimeout(() => {
         navigate("/dashboard");
       }, 3000);
     } catch (error: any) {
       toast.error(error.message);
+      setIsButtonDisabled(false);
     }
   };
 
@@ -80,8 +84,8 @@ function SignUp(): JSX.Element {
       <ToastContainer />
       <Link to="/">
         <div className="flex justify-center gap-1">
-          <img src={logo} alt="habitter logo" className="w-[36px] h-[36px]" />
-          <p className="font-semibold text-3xl">Habitter</p>
+          <img src={logo} alt="habitter logo" className="w-9 h-9" />
+          <p className="font-semibold text-3xl">EventiCal</p>
         </div>
       </Link>
       <p className="text-3xl mx-auto font-semibold tracking-tight py-7">
@@ -181,7 +185,7 @@ function SignUp(): JSX.Element {
             </div>
 
             <button
-              disabled={!formik.isValid || !formik.dirty}
+              disabled={!formik.isValid || !formik.dirty || isButtonDisabled}
               type="submit"
               className="text-white text-md font-light px-10 py-2 bg-[#217BF4] sm:w-[30rem] w-80 mx-auto rounded-lg mt-3 disabled:opacity-50 transition-all duration-300"
             >

@@ -16,7 +16,7 @@ const DeleteHabitModal = (props) => {
     try {
       const habitDoc = doc(db, "habits", activeId);
       await deleteDoc(habitDoc);
-      toast("Habit deleted", { autoClose: 2000 });
+      toast("Event deleted", { autoClose: 2000 });
       getHabits();
       setDeleteModalIsOpen(false);
       setIsDeleteDisabled(false);
@@ -39,13 +39,13 @@ const DeleteHabitModal = (props) => {
           },
         }}
         isOpen={deleteModalIsOpen}
-        className="bg-white flex flex-col mt-[10%] py-10 sm:w-[40%] w-[90%] mx-auto justify-center items-center"
+        className="bg-white flex flex-col mt-[10%] py-10 sm:w-[50%] w-[90%] mx-auto justify-center items-center rounded-sm"
         appElement={document.getElementById("root") || undefined}
         onRequestClose={() => {
           setDeleteModalIsOpen(false);
         }}
       >
-        <p className="px-3">Are you sure you want to delete this habit?</p>
+        <p className="px-3 py-1">Are you sure you want to delete this event?</p>
         <div className=" flex gap-3">
           <button
             disabled={isDeleteDisabled}

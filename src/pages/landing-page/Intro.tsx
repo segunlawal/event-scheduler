@@ -7,19 +7,19 @@ export const Intro = (): JSX.Element => {
   const { oneUser } = UserAuth();
 
   return (
-    <div className="hero flex md:px-[135px] px-10 md:py-[72px] py-7 shadow-md">
-      <div className="lg:w-1/2 w-full md:pt-[125px]">
+    <div className="hero h-screen max-h-[86vh] flex md:px-36 px-10 md:pt-5 pt-10 shadow-md">
+      <div className="lg:w-1/2 w-full md:pt-32">
         <button className="text-[#217BF4] bg-[#217BF4] bg-opacity-10 rounded-lg h-9 w-44">
-          Habitter Community
+          Event Calendar
         </button>
         <p className="text-[#0A093D] font-bold md:text-5xl text-3xl tracking-tight pt-5">
-          Track Your Habits,
+          Track Your Events
         </p>
         <p className="text-[#0A093D] font-bold md:text-5xl text-3xl tracking-tight">
-          Change Your Life
+          On A Calendar
         </p>
-        <p className="text-[#656464] pt-[18px]">
-          Build good habits, break free from bad habits. One day at a time.
+        <p className="text-[#656464] pt-5">
+          Organize your events, keep up to date with your schedule.
         </p>
         <Link to={oneUser === true ? "/dashboard" : "/signup"}>
           {

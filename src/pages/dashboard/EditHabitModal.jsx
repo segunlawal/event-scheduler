@@ -11,8 +11,8 @@ import { AiOutlineClose } from "react-icons/ai";
 
 const EditHabitSchema = Yup.object().shape({
   newHabitName: Yup.string()
-    .required("Habit name is required")
-    .min(1, "Habit name must have at least one character"),
+    .required("Event name is required")
+    .min(1, "Event name must have at least one character"),
 });
 
 const EditHabitModal = (props) => {
@@ -62,7 +62,7 @@ const EditHabitModal = (props) => {
         startDate,
         endDate,
       });
-      toast.success("Habit updated", { autoClose: 2000 });
+      toast.success("Event updated", { autoClose: 2000 });
       getHabits();
       setEditModalIsOpen(false);
       setIsButtonDisabled(false);
@@ -85,7 +85,7 @@ const EditHabitModal = (props) => {
           },
         }}
         isOpen={editModalIsOpen}
-        className="bg-white flex flex-col mt-[10%] py-10 sm:w-[40%] w-[90%] mx-auto justify-center items-center"
+        className="bg-white flex flex-col mt-[10%] py-10 sm:w-[50%] w-[90%] mx-auto justify-center items-center rounded-sm"
         appElement={document.getElementById("root") || undefined}
         onRequestClose={() => {
           setEditModalIsOpen(false);
@@ -104,7 +104,7 @@ const EditHabitModal = (props) => {
           {(formik) => (
             <Form className="flex flex-col mx-auto w-full px-10 gap-3">
               <div className="flex justify-between">
-                <p className="text-xl">Edit habit</p>
+                <p className="text-xl">Edit event</p>
                 <AiOutlineClose
                   className="my-auto cursor-pointer text-xl"
                   onClick={() => {
@@ -113,11 +113,11 @@ const EditHabitModal = (props) => {
                 />
               </div>
               <div className="flex flex-col">
-                <label>Habit Name</label>
+                <label>Event Name</label>
                 <Field
                   name="newHabitName"
                   className="border-[1px] border-[#2b2b39] p-2 rounded-sm"
-                  placeholder="Enter a new habit"
+                  placeholder="Enter a new event"
                 />
                 <ErrorMessage
                   name="newHabitName"
@@ -126,12 +126,12 @@ const EditHabitModal = (props) => {
                 />
               </div>
               <div className="flex flex-col">
-                <label>Habit Description</label>
+                <label>Event Description</label>
                 <Field
                   as="textarea"
                   name="newHabitDesc"
                   className="border-[1px] border-[#2b2b39] p-2 rounded-sm"
-                  placeholder="Briefly describe habit"
+                  placeholder="Briefly describe event"
                 />
               </div>
               <div className="flex flex-col">

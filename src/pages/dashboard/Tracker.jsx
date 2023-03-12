@@ -29,6 +29,7 @@ function Tracker(props) {
   const [clickedEvent, setClickedEvent] = useState("");
   const [clickedEventStartDate, setClickedEventStartDate] = useState("");
   const [clickedEventEndDate, setClickedEventEndDate] = useState("");
+  const [clickedEventDescription, setClickedEventDescription] = useState("");
   const currentDate = moment().format("YYYY-MM-DD");
 
   useEffect(() => {
@@ -40,6 +41,7 @@ function Tracker(props) {
 
         return {
           title: habit.habitName,
+          description: habit.habitDescription,
           start: habit.startDate,
           end: newDateString,
           id: habit.id,
@@ -81,6 +83,7 @@ function Tracker(props) {
     clickedEndDate.setDate(clickedEndDate.getDate() - 1);
     const newClickedEndDate = clickedEndDate.toISOString().slice(0, 10);
     setClickedEventEndDate(newClickedEndDate);
+    setClickedEventDescription(clickInfo.event._def.extendedProps.description);
     setActiveId(clickInfo.event._def.publicId);
   };
 
@@ -103,6 +106,7 @@ function Tracker(props) {
         setDeleteModalIsOpen={setDeleteModalIsOpen}
         activeId={activeId}
         setActiveId={setActiveId}
+        clickedEventDescription={clickedEventDescription}
       />
       <button
         className="fixed z-10 bottom-5 right-5 rounded-full text-white bg-[#217BF4] p-2 flex items-center justify-center shadow-2xl"
@@ -120,9 +124,9 @@ function Tracker(props) {
           initialView="dayGridMonth"
           events={calendarEvents}
           headerToolbar={{
-            start: "today prev,next", // will normally be on the left. if RTL, will be on the right
+            start: "today prev,next",
             center: "title",
-            end: "dayGridMonth,dayGridWeek,dayGridDay", // will normally be on the right. if RTL, will be on the left
+            end: "dayGridMonth,dayGridWeek,dayGridDay",
           }}
           height={"89vh"}
           editable={true}

@@ -105,7 +105,7 @@ function Dashboard() {
             <NavLink to="/" className="flex gap-[6px]">
               <img src={logo} alt="habitter logo" className="w-8 h-8" />
               <span className="hidden sm:block font-semibold text-[1.5rem]">
-                Habitter
+                EventiCal
               </span>
             </NavLink>
             <div

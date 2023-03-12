@@ -8,7 +8,6 @@ import { UserAuth } from "../context/AuthContext";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase-config";
 
-// eslint-disable-next-line no-unused-vars
 export default function NavBar(): JSX.Element {
   const navMenu = useRef(null);
   const [navbar, setNavbar] = useState(false);
@@ -34,12 +33,8 @@ export default function NavBar(): JSX.Element {
           <div>
             <div className="flex items-center justify-between lg:block">
               <NavLink to="/" className="flex gap-[6px]">
-                <img
-                  src={logo}
-                  alt="habitter logo"
-                  className="w-[36px] h-[36px]"
-                />
-                <span className="font-semibold text-[1.5rem]">Habitter</span>
+                <img src={logo} alt="habitter logo" className="w-9 h-9" />
+                <span className="font-semibold text-[1.5rem]">EventiCal</span>
               </NavLink>
               <div className="lg:hidden">
                 <button
@@ -89,19 +84,7 @@ export default function NavBar(): JSX.Element {
               }`}
             >
               <ul className="bg- lg:bg-inherit items-center xl:gap-12 justify-center space-y-5 lg:flex lg:space-x-6 lg:space-y-0">
-                <li className="leading-[25px]">
-                  <NavLink
-                    to="/blog"
-                    reloadDocument
-                    className={({ isActive }) =>
-                      isActive
-                        ? " flex items-center text-[#217BF4] font-bold"
-                        : "hover:text-[#217BF4] flex items-center"
-                    }
-                  >
-                    Blog
-                  </NavLink>
-                </li>
+                <li className="leading-[25px]"></li>
                 <li className="leading-[25px]">
                   <NavLink
                     reloadDocument

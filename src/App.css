@@ -1,9 +1,6 @@
 * {
   font-family: "Lexend", sans-serif;
   color: #2b2b39;
-  /* text-align: center; */
-  /* #217bf4; */
-  /* #ffaf2e; */
 }
 .hero {
   background: linear-gradient(311.76deg, #d4e7fe -15.24%, #ffffff 78.85%);
@@ -27,3 +24,5 @@ input:-webkit-autofill {
     transform: translateY(0);
   }
 }
+/* #217bf4; */
+/* #ffaf2e; */

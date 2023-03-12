@@ -1,13 +1,8 @@
-/* eslint-disable no-unused-vars */
-import { useState } from "react";
 import Modal from "react-modal";
 import PropTypes from "prop-types";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AiOutlineDelete, AiOutlineEdit, AiOutlineClose } from "react-icons/ai";
-// import { doc, updateDoc } from "firebase/firestore";
-// import { db } from "../../firebase-config";
-import "../../App.css";
 
 const EventInfo = (props) => {
   const {
@@ -20,6 +15,7 @@ const EventInfo = (props) => {
     setDeleteModalIsOpen,
     activeId,
     setActiveId,
+    clickedEventDescription,
   } = props;
   function handleEditModal(id) {
     setActiveId(id);
@@ -30,8 +26,7 @@ const EventInfo = (props) => {
     setDeleteModalIsOpen(true);
   }
 
-  const arrDate = clickedEventStartDate.split("-");
-  console.log(arrDate);
+  const arrStartDate = clickedEventStartDate.split("-");
   const months = [
     "",
     "January",
@@ -47,10 +42,19 @@ const EventInfo = (props) => {
     "November",
     "December",
   ];
-  if (arrDate[1] < 10 && arrDate[1].toString().charAt(0) === "0") {
-    arrDate[1] = parseInt(arrDate[1].toString().charAt(1));
+  if (arrStartDate[1] < 10 && arrStartDate[1].toString().charAt(0) === "0") {
+    arrStartDate[1] = parseInt(arrStartDate[1].toString().charAt(1));
   }
-  const eventStart = months[arrDate[1]] + " " + arrDate[2] + ", " + arrDate[0];
+  const eventStart =
+    months[arrStartDate[1]] + " " + arrStartDate[2] + ", " + arrStartDate[0];
+
+  const arrEndDate = clickedEventEndDate.split("-");
+  if (arrEndDate[1] < 10 && arrEndDate[1].toString().charAt(0) === "0") {
+    arrEndDate[1] = parseInt(arrEndDate[1].toString().charAt(1));
+  }
+  const eventEnd =
+    months[arrEndDate[1]] + " " + arrEndDate[2] + ", " + arrEndDate[0];
+
   return (
     <div>
       <ToastContainer />
@@ -68,13 +72,13 @@ const EventInfo = (props) => {
           },
         }}
         isOpen={infoModalIsOpen}
-        className="bg-white shadow-lg flex flex-col mt-[10%] p-2 sm:w-[35%] w-[90%] mx-auto"
+        className="bg-white rounded-md shadow-lg flex flex-col mt-[10%] p-2 sm:w-[45%] w-[90%] mx-auto"
         appElement={document.getElementById("root") || undefined}
         onRequestClose={() => {
           setInfoModalIsOpen(false);
         }}
       >
-        <div className="flex justify-end text-xl gap-3">
+        <div className="flex justify-end text-xl gap-4">
           <AiOutlineEdit
             className="cursor-pointer"
             onClick={() => {
@@ -98,8 +102,11 @@ const EventInfo = (props) => {
         </div>
         <p className="text-lg font-semibold leading-tight">{clickedEvent}</p>
         <p>
-          {eventStart} to {clickedEventEndDate}
+          {eventStart} to {eventEnd}
         </p>
+        {clickedEventDescription && (
+          <p className="text-sm">{clickedEventDescription}</p>
+        )}
       </Modal>
     </div>
   );
@@ -115,6 +122,7 @@ EventInfo.propTypes = {
   activeId: PropTypes.string.isRequired,
   clickedEventStartDate: PropTypes.string.isRequired,
   clickedEventEndDate: PropTypes.string.isRequired,
+  clickedEventDescription: PropTypes.string.isRequired,
 };
 
 export default EventInfo;

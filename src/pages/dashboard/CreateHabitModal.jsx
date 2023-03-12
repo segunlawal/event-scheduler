@@ -13,8 +13,8 @@ import moment from "moment";
 
 const CreateHabitSchema = Yup.object().shape({
   newHabitName: Yup.string()
-    .required("Habit name is required")
-    .min(1, "Habit name must have at least one character"),
+    .required("Event name is required")
+    .min(1, "Event name must have at least one character"),
 });
 
 const CreateHabitModal = (props) => {
@@ -52,7 +52,7 @@ const CreateHabitModal = (props) => {
         endDate,
         userId: auth?.currentUser?.uid,
       });
-      toast.success("Habit created", { autoClose: 2000 });
+      toast.success("Event created", { autoClose: 2000 });
       getHabits();
       setModalIsOpen(false);
       setIsButtonDisabled(false);
@@ -74,7 +74,7 @@ const CreateHabitModal = (props) => {
           },
         }}
         isOpen={modalIsOpen}
-        className="bg-white flex flex-col mt-[10%] py-10 sm:w-[40%] w-[90%] mx-auto justify-center items-center"
+        className="bg-white flex flex-col mt-[10%] py-10 sm:w-[50%] w-[90%] mx-auto justify-center items-center rounded-sm"
         appElement={document.getElementById("root") || undefined}
         onRequestClose={() => {
           setModalIsOpen(false);
@@ -93,7 +93,7 @@ const CreateHabitModal = (props) => {
           {(formik) => (
             <Form className="flex flex-col mx-auto w-full px-10 gap-3">
               <div className="flex justify-between">
-                <p className="text-xl">Create a new habit</p>
+                <p className="text-xl">Create a new event</p>
                 <AiOutlineClose
                   className="my-auto cursor-pointer text-xl"
                   onClick={() => {
@@ -102,11 +102,11 @@ const CreateHabitModal = (props) => {
                 />
               </div>
               <div className="flex flex-col">
-                <label>Habit Name</label>
+                <label>Event Name</label>
                 <Field
                   name="newHabitName"
                   className="border-[1px] border-[#2b2b39] p-2 rounded-sm"
-                  placeholder="Enter a new habit"
+                  placeholder="Enter a new event"
                 />
                 <ErrorMessage
                   name="newHabitName"
@@ -115,12 +115,12 @@ const CreateHabitModal = (props) => {
                 />
               </div>
               <div className="flex flex-col">
-                <label>Habit Description (optional)</label>
+                <label>Event Description (optional)</label>
                 <Field
                   as="textarea"
                   name="newHabitDesc"
                   className="border-[1px] border-[#2b2b39] p-2 rounded-sm"
-                  placeholder="Briefly describe habit"
+                  placeholder="Briefly describe event"
                 />
               </div>
               <div className="flex flex-col">
